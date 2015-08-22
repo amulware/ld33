@@ -1,4 +1,5 @@
-﻿using Bearded.Utilities.SpaceTime;
+﻿using amulware.Graphics;
+using Bearded.Utilities.SpaceTime;
 
 namespace Game
 {
@@ -30,6 +31,22 @@ namespace Game
                     bestF = r.Value.RayFactor;
                     result = r.Value;
                 }
+            }
+
+            var geo = GeometryManager.Instance.Primitives;
+            geo.LineWidth = 0.05f;
+
+            if (result.HasValue)
+            {
+                var p = result.Value.Point.Vector;
+                geo.Color = Color.Green;
+                geo.DrawLine(this.Start.Vector, p);
+                geo.DrawCircle(p, 0.2f);
+            }
+            else
+            {
+                geo.Color = Color.Red;
+                geo.DrawLine(this.Start.Vector, (this.Start + this.Direction).Vector);
             }
 
             return result;

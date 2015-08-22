@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using amulware.Graphics;
 using Bearded.Utilities.Input;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -42,7 +41,7 @@ namespace Game
         public Centipede(GameState game, int length = 15)
             : base(game)
         {
-            this.head = new CentiHead();
+            this.head = new CentiHead(game);
 
             this.tailPath.AddFirst(new CentiPathPart(this.head.Position, Radius.FromValue(0)));
 
@@ -185,78 +184,6 @@ namespace Game
         {
             this.acceleration = acceleration.Clamped(0, 1);
             this.leftRight = leftRight.Clamped(-1, 1);
-        }
-    }
-
-    class CentiHead
-    {
-        private Position2 position;
-        private Angle turnSpeed;
-        private Direction2 rotation;
-        private Unit speed;
-
-        private Unit distanceTraveled;
-
-        public Position2 Position { get { return this.position; } }
-        public Direction2 Direction { get { return this.rotation; } }
-
-        public void Update(Instant time, TimeSpan elapsedTime, ControlState controlState)
-        {
-            var t = (float)elapsedTime.NumericValue;
-
-            this.speed += new Unit(controlState.Acceleration * t * 50);
-            this.speed *= GameMath.Pow(1e-3f, t);
-
-            var leftRight = (
-                controlState.LeftRight * 2f +
-                GameMath.Sin(this.distanceTraveled.NumericValue * 0.7f) * 0.5f
-                ).Clamped(-1, 1);
-
-            this.turnSpeed += Angle.FromRadians(leftRight * t * 5);
-            this.turnSpeed *= GameMath.Pow(1e-7f, t);
-
-            this.rotation += this.turnSpeed * (t * this.speed.NumericValue);
-
-            this.position += Difference2.In(this.rotation, speed) * t;
-
-            this.distanceTraveled += speed * t;
-        }
-
-        public void Draw()
-        {
-            var geo = GeometryManager.Instance.Primitives;
-
-            geo.Color = Color.IndianRed;
-            geo.DrawCircle(this.position.Vector, 1);
-
-            geo.LineWidth = 0.1f;
-            geo.DrawLine(this.position.Vector, (this.position + Difference2.In(this.rotation, Unit.One * 2)).Vector);
-
-        }
-
-    }
-
-    class Centipart
-    {
-        private Position2 position;
-
-        public Position2 Position
-        {
-            get { return this.position; }
-        }
-
-        public void SetPosition(Position2 position)
-        {
-            this.position = position;
-        }
-
-        public void Draw()
-        {
-            var geo = GeometryManager.Instance.Primitives;
-
-            geo.Color = Color.IndianRed;
-            geo.DrawCircle(this.position.Vector, 0.9f);
-
         }
     }
 }

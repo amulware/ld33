@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Building.cs" />
+    <Compile Include="CentiHead.cs" />
+    <Compile Include="Centipart.cs" />
     <Compile Include="Centipede.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameRenderer.cs" />

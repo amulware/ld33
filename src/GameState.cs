@@ -23,7 +23,7 @@ namespace Game
             {
                 for (int x = -10; x < 10; x++)
                 {
-                    new Building(this, new Position2(x * 10, y * 10), new Difference2(6, 6));
+                    new Building(this, new Position2(x * 15, y * 15), new Difference2(12, 12));
                 }
             }
 
