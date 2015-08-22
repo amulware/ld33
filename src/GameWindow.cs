@@ -1,5 +1,6 @@
 ﻿using System;
 using amulware.Graphics;
+using Bearded.Utilities.Input;
 using OpenTK;
 using OpenTK.Graphics;
 
@@ -21,10 +22,17 @@ namespace Game
             this.renderer = new GameRenderer();
 
             this.game = new GameState();
+
+            InputManager.Initialize(this.Mouse);
         }
 
         protected override void OnUpdate(UpdateEventArgs e)
         {
+            if (this.Focused)
+            {
+                InputManager.Update();
+            }
+
             this.game.Update(e);
         }
 

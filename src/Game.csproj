@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Centipede.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameRenderer.cs" />
     <Compile Include="GameState.cs" />

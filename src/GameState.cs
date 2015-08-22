@@ -14,7 +14,7 @@ namespace Game
 
         public GameState()
         {
-            
+            new Centipede(this);
         }
 
         public void Add(GameObject gameObject)
