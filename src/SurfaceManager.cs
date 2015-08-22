@@ -1,9 +1,10 @@
 ﻿using amulware.Graphics;
 using amulware.Graphics.ShaderManagement;
+using Bearded.Utilities;
 
 namespace Game
 {
-    sealed class SurfaceManager
+    sealed class SurfaceManager : Singleton<SurfaceManager>
     {
         public Matrix4Uniform ProjectionMatrix { get; private set; }
         public Matrix4Uniform ModelviewMatrix { get; private set; }

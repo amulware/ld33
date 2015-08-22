@@ -105,8 +105,8 @@ namespace Game
 
                         if (i == this.parts.Count)
                         {
-                                while (this.tailPath.Last != intervalEndNode)
-                                    this.tailPath.RemoveLast();
+                            while (this.tailPath.Last != intervalEndNode)
+                                this.tailPath.RemoveLast();
                             
                             return;
                         }
@@ -142,7 +142,6 @@ namespace Game
 
             // debug draw tail path
 #if false
-            var geo = GeometryManager.Instance.Primitives;
 
             var p = this.head.Position.Vector;
             foreach (var part in this.tailPath)
@@ -199,6 +198,7 @@ namespace Game
         private Unit distanceTraveled;
 
         public Position2 Position { get { return this.position; } }
+        public Direction2 Direction { get { return this.rotation; } }
 
         public void Update(Instant time, TimeSpan elapsedTime, ControlState controlState)
         {

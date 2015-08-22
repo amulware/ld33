@@ -7,9 +7,14 @@ namespace Game
     sealed class GameState
     {
         private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
+        private DeletableObjectList<Building> buildings = new DeletableObjectList<Building>();
+
         private Instant time = Instant.Zero;
 
         public Instant Time { get { return this.time; } }
+
+        public DeletableObjectList<Building> Buildings { get { return this.buildings; } }
+
 
         public GameState()
         {
@@ -49,6 +54,11 @@ namespace Game
             {
                 gameObject.Draw();
             }
+        }
+
+        public void AddBuilding(Building building)
+        {
+            this.buildings.Add(building);
         }
     }
 }
