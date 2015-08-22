@@ -1,7 +1,6 @@
 ﻿using amulware.Graphics;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
-using OpenTK;
 
 namespace Game
 {
@@ -14,6 +13,15 @@ namespace Game
 
         public GameState()
         {
+
+            for (int y = -10; y < 10; y++)
+            {
+                for (int x = -10; x < 10; x++)
+                {
+                    new Building(this, new Position2(x * 10, y * 10), new Difference2(6, 6));
+                }
+            }
+
             new Centipede(this);
         }
 

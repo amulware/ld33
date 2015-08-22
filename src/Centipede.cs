@@ -55,7 +55,7 @@ namespace Game
         public override void Update(TimeSpan elapsedTime)
         {
             var controlState = this.controller.Control();
-            this.head.Update(elapsedTime, controlState);
+            this.head.Update(this.game.Time, elapsedTime, controlState);
 
             var currentPathPart = new CentiPathPart(this.head.Position, this.lastSaved);
 
@@ -196,21 +196,30 @@ namespace Game
         private Direction2 rotation;
         private Unit speed;
 
+        private Unit distanceTraveled;
+
         public Position2 Position { get { return this.position; } }
 
-        public void Update(TimeSpan elapsedTime, ControlState controlState)
+        public void Update(Instant time, TimeSpan elapsedTime, ControlState controlState)
         {
             var t = (float)elapsedTime.NumericValue;
 
             this.speed += new Unit(controlState.Acceleration * t * 50);
             this.speed *= GameMath.Pow(1e-3f, t);
 
-            this.turnSpeed += Angle.FromRadians(controlState.LeftRight * t * 5);
+            var leftRight = (
+                controlState.LeftRight * 2f +
+                GameMath.Sin(this.distanceTraveled.NumericValue * 0.7f) * 0.5f
+                ).Clamped(-1, 1);
+
+            this.turnSpeed += Angle.FromRadians(leftRight * t * 5);
             this.turnSpeed *= GameMath.Pow(1e-7f, t);
 
             this.rotation += this.turnSpeed * (t * this.speed.NumericValue);
 
             this.position += Difference2.In(this.rotation, speed) * t;
+
+            this.distanceTraveled += speed * t;
         }
 
         public void Draw()
