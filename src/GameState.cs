@@ -26,8 +26,11 @@ namespace Game
                     new Building(this, new Position2(x * 15, y * 15), new Difference2(12, 12));
                 }
             }
+            
+            var pede = new Centipede(this);
+            
+            new PlayerView(this, pede);
 
-            new Centipede(this);
         }
 
         public void Add(GameObject gameObject)

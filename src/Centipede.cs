@@ -27,7 +27,7 @@ namespace Game
         public Radius DistanceToPrevious { get { return this.distanceToPrevious; } }
     }
 
-    sealed class Centipede : GameObject
+    sealed class Centipede : GameObject, IPositionable
     {
         private CentiHead head;
         private List<Centipart> parts = new List<Centipart>();
@@ -50,6 +50,8 @@ namespace Game
                 this.parts.Add(new Centipart());
             }
         }
+
+        public Position2 Position { get { return this.head.Position; } }
 
         public override void Update(TimeSpan elapsedTime)
         {
@@ -155,6 +157,7 @@ namespace Game
             }
 #endif
         }
+
     }
 
     sealed class KeyboardController

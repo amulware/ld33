@@ -14,7 +14,6 @@ namespace Game
         public GameWindow()
             : base(1280, 720, GraphicsMode.Default, "The Game", GameWindowFlags.Default, DisplayDevice.Default, 3, 2, GraphicsContextFlags.Default)
         {
-            
         }
 
         protected override void OnLoad(EventArgs e)
@@ -46,4 +45,5 @@ namespace Game
             this.SwapBuffers();
         }
     }
+    
 }
