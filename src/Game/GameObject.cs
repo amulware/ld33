@@ -1,7 +1,7 @@
 ﻿using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 
-namespace Game
+namespace Centipede.Game
 {
     abstract class GameObject : IDeletable
     {

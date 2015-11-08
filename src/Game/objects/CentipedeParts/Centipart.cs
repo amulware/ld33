@@ -1,7 +1,8 @@
 using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
+using Centipede.Rendering;
 
-namespace Game
+namespace Centipede.Game.CentipedeParts
 {
     class Centipart
     {

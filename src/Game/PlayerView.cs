@@ -1,8 +1,9 @@
 ﻿using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using Centipede.Rendering;
 using OpenTK;
 
-namespace Game
+namespace Centipede.Game
 {
     class PlayerView :GameObject
     {

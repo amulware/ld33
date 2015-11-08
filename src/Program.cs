@@ -1,5 +1,5 @@
 ﻿
-namespace Game
+namespace Centipede
 {
     class Program
     {

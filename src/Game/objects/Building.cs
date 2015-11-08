@@ -1,13 +1,17 @@
-﻿using amulware.Graphics;
+﻿using System;
+using Bearded.Utilities;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using Centipede.Rendering;
+using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
-namespace Game
+namespace Centipede.Game
 {
     sealed class Building : GameObject
     {
         private Position2 topLeft;
         private Difference2 size;
+        private Unit height = StaticRandom.Float(15, 30).U();
 
         public Building(GameState game, Position2 topLeft, Difference2 size)
             : base(game)
@@ -107,32 +111,10 @@ namespace Game
 
         public override void Draw()
         {
-            var geo = GeometryManager.Instance.Primitives;
+            var geo = GeometryManager.Instance.Buildings;
 
-            geo.Color = Color.Gray;
-            geo.DrawRectangle(this.topLeft.Vector, this.size.Vector);
+            geo.DrawBuilding(this.topLeft.Vector, this.size.Vector, this.height.NumericValue);
 
         }
-    }
-
-    struct HitResult
-    {
-        private readonly Position2 point;
-        private readonly Direction2 normal;
-        private readonly float rayFactor;
-        private readonly bool fromInside;
-
-        public HitResult(Position2 point, Direction2 normal, float rayFactor, bool fromInside)
-        {
-            this.point = point;
-            this.normal = normal;
-            this.rayFactor = rayFactor;
-            this.fromInside = fromInside;
-        }
-
-        public Position2 Point { get { return this.point; } }
-        public Direction2 Normal { get { return this.normal; } }
-        public float RayFactor { get { return this.rayFactor; } }
-        public bool FromInside { get { return this.fromInside; } }
     }
 }

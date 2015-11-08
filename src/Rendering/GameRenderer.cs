@@ -1,10 +1,11 @@
 ﻿using amulware.Graphics;
 using amulware.Graphics.ShaderManagement;
 using Bearded.Utilities.Math;
+using Centipede.Game;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-namespace Game
+namespace Centipede.Rendering
 {
     sealed class GameRenderer
     {
@@ -34,7 +35,7 @@ namespace Game
             }
 
             GL.ClearColor(0.2f, 0.2f, 0.2f, 0);
-            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
 
         private void resize(int width, int height)
@@ -76,11 +77,21 @@ namespace Game
 
         public void FinaliseFrame()
         {
+            GL.Disable(EnableCap.CullFace);
+            GL.Disable(EnableCap.DepthTest);
             SurfaceDepthMaskSetting.DontMask.Set(null);
             SurfaceBlendSetting.PremultipliedAlpha.Set(null);
 
             this.surfaces.Primitives.Render();
             this.surfaces.Text.Render();
+
+            GL.Enable(EnableCap.CullFace);
+            GL.CullFace(CullFaceMode.Back);
+            GL.Enable(EnableCap.DepthTest);
+            SurfaceDepthMaskSetting.DontMask.UnSet(null);
+            SurfaceBlendSetting.PremultipliedAlpha.UnSet(null);
+
+            this.surfaces.Buildings.Render();
         }
     }
 }

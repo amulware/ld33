@@ -1,32 +1,9 @@
 ﻿using System.Collections.Generic;
-using Bearded.Utilities.Input;
-using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
-using OpenTK.Input;
+using Centipede.Game.CentipedeParts;
 
-namespace Game
+namespace Centipede.Game
 {
-    struct CentiPathPart
-    {
-        private readonly Position2 position;
-        private readonly Radius distanceToPrevious;
-
-        public CentiPathPart(Position2 position, CentiPathPart previous)
-        {
-            this.position = position;
-            this.distanceToPrevious = (position - previous.position).Length;
-        }
-
-        public CentiPathPart(Position2 position, Radius distanceToPrevious)
-        {
-            this.position = position;
-            this.distanceToPrevious = distanceToPrevious;
-        }
-
-        public Position2 Position { get { return this.position; } }
-        public Radius DistanceToPrevious { get { return this.distanceToPrevious; } }
-    }
-
     sealed class Centipede : GameObject, IPositionable
     {
         private CentiHead head;
@@ -158,35 +135,5 @@ namespace Game
 #endif
         }
 
-    }
-
-    sealed class KeyboardController
-    {
-        private readonly IAction forwardAction = KeyboardAction.FromKey(Key.W);
-        private readonly IAction leftAction = KeyboardAction.FromKey(Key.A);
-        private readonly IAction rightAction = KeyboardAction.FromKey(Key.D);
-
-        public ControlState Control()
-        {
-            return new ControlState(
-                this.forwardAction.AnalogAmount,
-                this.leftAction.AnalogAmount - this.rightAction.AnalogAmount
-                );
-        }
-    }
-
-    struct ControlState
-    {
-        private readonly float leftRight;
-        private readonly float acceleration;
-
-        public float LeftRight { get { return this.leftRight; } }
-        public float Acceleration { get { return this.acceleration; } }
-
-        public ControlState(float acceleration, float leftRight)
-        {
-            this.acceleration = acceleration.Clamped(0, 1);
-            this.leftRight = leftRight.Clamped(-1, 1);
-        }
     }
 }

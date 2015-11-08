@@ -2,7 +2,7 @@
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
 
-namespace Game
+namespace Centipede.Game
 {
     sealed class GameState
     {

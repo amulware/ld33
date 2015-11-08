@@ -1,10 +1,12 @@
 ﻿using System;
 using amulware.Graphics;
 using Bearded.Utilities.Input;
+using Centipede.Game;
+using Centipede.Rendering;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace Game
+namespace Centipede
 {
     sealed class GameWindow : amulware.Graphics.Program
     {
@@ -12,7 +14,8 @@ namespace Game
         private GameState game;
 
         public GameWindow()
-            : base(1280, 720, GraphicsMode.Default, "The Game", GameWindowFlags.Default, DisplayDevice.Default, 3, 2, GraphicsContextFlags.Default)
+            : base(1280, 720, new GraphicsMode(new ColorFormat(32), 16, 0, 4),
+            "The Game", GameWindowFlags.Default, DisplayDevice.Default, 3, 2, GraphicsContextFlags.Default)
         {
         }
 

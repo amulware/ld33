@@ -1,11 +1,11 @@
-using System;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using Centipede.Rendering;
 using OpenTK;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
-namespace Game
+namespace Centipede.Game.CentipedeParts
 {
     class CentiHead
     {

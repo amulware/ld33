@@ -2,7 +2,7 @@
 using amulware.Graphics.ShaderManagement;
 using Bearded.Utilities;
 
-namespace Game
+namespace Centipede.Rendering
 {
     sealed class SurfaceManager : Singleton<SurfaceManager>
     {
@@ -11,6 +11,8 @@ namespace Game
 
         public IndexedSurface<PrimitiveVertexData> Primitives { get; private set; }
         public IndexedSurface<UVColorVertexData> Text { get; private set; }
+
+        public IndexedSurface<BuildingVertex> Buildings { get; private set; } 
 
         public SurfaceManager(ShaderManager shaderMan)
         {
@@ -21,6 +23,7 @@ namespace Game
             // create shaders
             shaderMan.MakeShaderProgram("primitives");
             shaderMan.MakeShaderProgram("uvcolor");
+            shaderMan.MakeShaderProgram("building");
 
             // surfaces
             this.Primitives = new IndexedSurface<PrimitiveVertexData>();
@@ -31,6 +34,10 @@ namespace Game
             this.Text.AddSettings(this.ProjectionMatrix, this.ModelviewMatrix,
                 new TextureUniform("diffuseTexture", new Texture("data/fonts/inconsolata.png", true)));
             shaderMan["uvcolor"].UseOnSurface(this.Text);
+
+            this.Buildings = new IndexedSurface<BuildingVertex>();
+            this.Buildings.AddSettings(this.ProjectionMatrix, this.ModelviewMatrix);
+            shaderMan["building"].UseOnSurface(this.Buildings);
 
         }
 

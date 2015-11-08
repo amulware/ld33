@@ -7,7 +7,7 @@
     <ProjectGuid>{A9E2BCE0-20B1-4C50-88B3-B77C141C5F50}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Game</RootNamespace>
+    <RootNamespace>Centipede</RootNamespace>
     <AssemblyName>Game</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -48,20 +48,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Building.cs" />
-    <Compile Include="CentiHead.cs" />
-    <Compile Include="Centipart.cs" />
-    <Compile Include="Centipede.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="GameRenderer.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="Game\objects\Building.cs" />
+    <Compile Include="Game\objects\CentipedeParts\CentiPathPart.cs" />
+    <Compile Include="Game\objects\CentipedeParts\CentiHead.cs" />
+    <Compile Include="Game\objects\CentipedeParts\Centipart.cs" />
+    <Compile Include="Game\objects\Centipede.cs" />
+    <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Rendering\GameRenderer.cs" />
+    <Compile Include="Game\GameState.cs" />
     <Compile Include="GameWindow.cs" />
-    <Compile Include="PlayerView.cs" />
+    <Compile Include="Game\HitResult.cs" />
+    <Compile Include="Game\KeyboardController.cs" />
+    <Compile Include="Game\ControlState.cs" />
+    <Compile Include="Game\PlayerView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GeometryManager.cs" />
-    <Compile Include="Ray.cs" />
-    <Compile Include="SurfaceManager.cs" />
+    <Compile Include="Rendering\geometries\BuildingGeometry.cs" />
+    <Compile Include="Rendering\GeometryManager.cs" />
+    <Compile Include="Game\Ray.cs" />
+    <Compile Include="Rendering\SurfaceManager.cs" />
+    <Compile Include="Rendering\vertices\BuildingVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -69,6 +75,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="data\shaders\primitives.vs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\shaders\building.vs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="data\shaders\uvcolor.vs">
@@ -85,7 +94,11 @@
       <Name>amulware.Graphics</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="data\shaders\building.fs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <ItemGroup>
     <None Include="data\fonts\inconsolata.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
