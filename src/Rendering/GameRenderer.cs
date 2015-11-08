@@ -77,10 +77,11 @@ namespace Centipede.Rendering
 
         public void FinaliseFrame()
         {
+            SurfaceBlendSetting.PremultipliedAlpha.Set(null);
+
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
             SurfaceDepthMaskSetting.DontMask.Set(null);
-            SurfaceBlendSetting.PremultipliedAlpha.Set(null);
 
             this.surfaces.Primitives.Render();
             this.surfaces.Text.Render();
@@ -89,7 +90,6 @@ namespace Centipede.Rendering
             GL.CullFace(CullFaceMode.Back);
             GL.Enable(EnableCap.DepthTest);
             SurfaceDepthMaskSetting.DontMask.UnSet(null);
-            SurfaceBlendSetting.PremultipliedAlpha.UnSet(null);
 
             this.surfaces.Buildings.Render();
         }

@@ -13,6 +13,10 @@ namespace Centipede.Game
         private Difference2 size;
         private Unit height = StaticRandom.Float(15, 30).U();
 
+        private float interiorAlpha;
+
+        public bool RevealInside { get; set; }
+
         public Building(GameState game, Position2 topLeft, Difference2 size)
             : base(game)
         {
@@ -24,6 +28,18 @@ namespace Centipede.Game
         
         public override void Update(TimeSpan elapsedTime)
         {
+            var interiorAlphaGoal = this.RevealInside ? 1 : 0;
+
+            var fade = (float)elapsedTime.NumericValue * 2;
+
+            if (interiorAlphaGoal > this.interiorAlpha)
+            {
+                this.interiorAlpha = Math.Min(interiorAlphaGoal, this.interiorAlpha + fade);
+            }
+            else
+            {
+                this.interiorAlpha = Math.Max(interiorAlphaGoal, this.interiorAlpha - fade);
+            }
         }
 
         public HitResult? TryHit(Ray ray)
@@ -109,11 +125,19 @@ namespace Centipede.Game
             return result;
         }
 
+        public bool IsInside(Position2 point)
+        {
+            return point.X >= this.topLeft.X
+                && point.Y >= this.topLeft.Y
+                && point.X < this.topLeft.X + this.size.X
+                && point.Y < this.topLeft.Y + this.size.Y;
+        }
+
         public override void Draw()
         {
             var geo = GeometryManager.Instance.Buildings;
 
-            geo.DrawBuilding(this.topLeft.Vector, this.size.Vector, this.height.NumericValue);
+            geo.DrawBuilding(this.topLeft.Vector, this.size.Vector, this.height.NumericValue, this.interiorAlpha);
 
         }
     }

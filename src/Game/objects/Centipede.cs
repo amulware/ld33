@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Game.CentipedeParts;
 
@@ -14,6 +16,8 @@ namespace Centipede.Game
         private KeyboardController controller = new KeyboardController();
 
         private CentiPathPart lastSaved;
+
+        private Building currentlyInside;
 
         public Centipede(GameState game, int length = 15)
             : base(game)
@@ -45,6 +49,30 @@ namespace Centipede.Game
                 this.lastSaved = currentPathPart;
             }
 
+            this.updateCurrentBuilding();
+        }
+
+        private void updateCurrentBuilding()
+        {
+            var p = this.Position;
+
+            this.setCurrentBuilding(
+                this.game.Buildings.FirstOrDefault(b => b.IsInside(p))
+                );
+        }
+
+        private void setCurrentBuilding(Building building)
+        {
+            if (building == this.currentlyInside)
+                return;
+
+            if (this.currentlyInside != null)
+                this.currentlyInside.RevealInside = false;
+
+            if (building != null)
+                building.RevealInside = true;
+
+            this.currentlyInside = building;
         }
 
         private void updateParts(CentiPathPart startPosition)

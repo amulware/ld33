@@ -6,10 +6,12 @@ uniform mat4 modelviewMatrix;
 in vec3 v_position;
 in vec3 v_normal;
 in vec2 v_uv;
+in float v_alpha;
 
 out vec3 p_position;
 out vec3 p_normal;
 out vec2 p_uv;
+out float p_alpha;
 
 
 void main()
@@ -18,4 +20,5 @@ void main()
 	p_position = v_position;
 	p_normal = v_normal;
 	p_uv = v_uv;
+	p_alpha = v_alpha;
 }

@@ -3,6 +3,7 @@
 in vec3 p_position;
 in vec3 p_normal;
 in vec2 p_uv;
+in float p_alpha;
 
 out vec4 fragColor;
 
@@ -17,5 +18,5 @@ void main()
 	vec3 rgb = vec3(1, 1, 0.7) * lum + vec3(0.3, 0.25, 0.4);
 
 
-    fragColor = vec4(rgb * gradient, 1);
+    fragColor = vec4(rgb * gradient, 1) * p_alpha;
 }
