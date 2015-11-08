@@ -90,10 +90,10 @@ namespace Game
             var t = (float)elapsedTime.NumericValue;
 
             this.speed += new Unit(acceleration * t * 50);
-            this.speed *= GameMath.Pow(1e-3f, t);
+            this.speed *= Mathf.Pow(1e-3f, t);
 
             this.turnSpeed += Angle.FromRadians(leftRight * t * 5);
-            this.turnSpeed *= GameMath.Pow(1e-7f, t);
+            this.turnSpeed *= Mathf.Pow(1e-7f, t);
 
             this.rotation += this.turnSpeed * (t * this.speed.NumericValue);
 

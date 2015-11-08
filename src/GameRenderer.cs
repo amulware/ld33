@@ -51,11 +51,11 @@ namespace Game
         {
             const float zNear = 0.1f;
             const float zFar = 256f;
-            const float fovy = GameMath.PiOver4;
+            const float fovy = Mathf.PiOver4;
 
             var ratio = (float)width / height;
 
-            var yMax = zNear * GameMath.Tan(0.5f * fovy);
+            var yMax = zNear * Mathf.Tan(0.5f * fovy);
             var yMin = -yMax;
             var xMin = yMin * ratio;
             var xMax = yMax * ratio;
