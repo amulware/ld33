@@ -23,7 +23,7 @@ namespace Centipede.Game
             {
                 for (int x = -10; x < 10; x++)
                 {
-                    new Building(this, new Position2(x * 15, y * 15), new Difference2(12, 12));
+                    new Building(this, new Position2(x * 20, y * 20), new Difference2(12, 12));
                 }
             }
             

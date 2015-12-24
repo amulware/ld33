@@ -26,7 +26,7 @@ namespace Centipede.Game
 
             SurfaceManager.Instance.ModelviewMatrix.Matrix
                 = Matrix4.LookAt(
-                    xy.WithZ(50), xy.WithZ(), new Vector3(0, 1, 0)
+                    xy.WithZ(500), xy.WithZ(), new Vector3(0, 1, 0)
                 );
         }
     }
