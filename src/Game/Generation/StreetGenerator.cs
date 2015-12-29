@@ -161,6 +161,8 @@ namespace Centipede.Game.Generation
             var blocks = new Stack<Block>();
             blocks.Push(root);
 
+            var generatedStreets = new HashSet<Street>();
+
             while (blocks.Count > 0)
             {
                 var b = blocks.Pop();
@@ -187,6 +189,10 @@ namespace Centipede.Game.Generation
 
                 foreach (var street in b.Streets)
                 {
+                    if (!generatedStreets.Add(street))
+                    {
+                        continue;
+                    }
                     var w = street.Width;
                     var intersections = street.Intersections;
                     for (int i = 1; i < intersections.Count; i++)

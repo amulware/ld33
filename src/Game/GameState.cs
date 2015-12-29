@@ -26,6 +26,10 @@ namespace Centipede.Game
             
             new PlayerView(this, pede);
 
+            for (int i = 0; i < 100; i++)
+            {
+                new Civilian(this);
+            }
         }
 
         public void Add(GameObject gameObject)

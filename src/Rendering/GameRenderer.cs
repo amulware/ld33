@@ -34,6 +34,7 @@ namespace Centipede.Rendering
                 this.resize(width, height);
             }
 
+            GL.DepthMask(true);
             GL.ClearColor(0.2f, 0.2f, 0.2f, 0);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }
@@ -79,9 +80,9 @@ namespace Centipede.Rendering
         {
             SurfaceBlendSetting.PremultipliedAlpha.Set(null);
 
+            GL.DepthMask(false);
             GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
-            SurfaceDepthMaskSetting.DontMask.Set(null);
 
             this.surfaces.Primitives.Render();
             this.surfaces.Text.Render();
@@ -89,9 +90,13 @@ namespace Centipede.Rendering
             GL.Enable(EnableCap.CullFace);
             GL.CullFace(CullFaceMode.Back);
             GL.Enable(EnableCap.DepthTest);
-            SurfaceDepthMaskSetting.DontMask.UnSet(null);
+            GL.DepthMask(true);
 
             this.surfaces.Buildings.Render();
+            
+            GL.DepthMask(false);
+            this.surfaces.Sprites.Surface.Render();
+
         }
     }
 }

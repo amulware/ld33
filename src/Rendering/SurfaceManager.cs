@@ -12,7 +12,9 @@ namespace Centipede.Rendering
         public IndexedSurface<PrimitiveVertexData> Primitives { get; private set; }
         public IndexedSurface<UVColorVertexData> Text { get; private set; }
 
-        public IndexedSurface<BuildingVertex> Buildings { get; private set; } 
+        public IndexedSurface<BuildingVertex> Buildings { get; private set; }
+
+        public SpriteSet<UVColorVertexData> Sprites { get; private set; } 
 
         public SurfaceManager(ShaderManager shaderMan)
         {
@@ -25,9 +27,11 @@ namespace Centipede.Rendering
             shaderMan.MakeShaderProgram("uvcolor");
             shaderMan.MakeShaderProgram("building");
 
+            var sharedSettings = new SurfaceSetting[] {this.ProjectionMatrix, this.ModelviewMatrix};
+
             // surfaces
             this.Primitives = new IndexedSurface<PrimitiveVertexData>();
-            this.Primitives.AddSettings(this.ProjectionMatrix, this.ModelviewMatrix);
+            this.Primitives.AddSettings(sharedSettings);
             shaderMan["primitives"].UseOnSurface(this.Primitives);
 
             this.Text = new IndexedSurface<UVColorVertexData>();
@@ -36,9 +40,11 @@ namespace Centipede.Rendering
             shaderMan["uvcolor"].UseOnSurface(this.Text);
 
             this.Buildings = new IndexedSurface<BuildingVertex>();
-            this.Buildings.AddSettings(this.ProjectionMatrix, this.ModelviewMatrix);
+            this.Buildings.AddSettings(sharedSettings);
             shaderMan["building"].UseOnSurface(this.Buildings);
 
+            this.Sprites = SpriteSet<UVColorVertexData>.FromJsonFile("data/sprites/particles.json",
+                s => new Sprite2DGeometry(s), shaderMan["uvcolor"], sharedSettings, f => new Texture(f, true), true);
         }
 
     }

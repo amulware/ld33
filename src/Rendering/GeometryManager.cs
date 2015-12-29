@@ -6,6 +6,7 @@ namespace Centipede.Rendering
 {
     sealed class GeometryManager : Singleton<GeometryManager>
     {
+        private SpriteSet<UVColorVertexData> sprites;
         public PrimitiveGeometry Primitives { get; private set; }
         public FontGeometry Text { get; private set; }
         public BuildingGeometry Buildings { get; private set; }
@@ -18,7 +19,13 @@ namespace Centipede.Rendering
             this.Text = new FontGeometry(surfaces.Text, font) {SizeCoefficient = new Vector2(1, -1)};
 
             this.Buildings = new BuildingGeometry(surfaces.Buildings);
+
+            this.sprites = surfaces.Sprites;
         }
 
+        public Sprite GetSprite(string name)
+        {
+            return this.sprites[name];
+        }
     }
 }

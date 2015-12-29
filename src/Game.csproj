@@ -59,6 +59,7 @@
     <Compile Include="Game\objects\CentipedeParts\Centipart.cs" />
     <Compile Include="Game\objects\Centipede.cs" />
     <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\objects\Civilian.cs" />
     <Compile Include="Game\objects\Intersection.cs" />
     <Compile Include="Game\objects\Street.cs" />
     <Compile Include="Rendering\GameRenderer.cs" />
@@ -91,6 +92,9 @@
     <None Include="data\shaders\uvcolor.vs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="data\sprites\particles.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libs\awgraphics\libs\utilities\src\Bearded.Utilities.csproj">
@@ -117,6 +121,11 @@
     <None Include="data\shaders\uvcolor.fs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\sprites\particles.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,8 @@
-﻿using amulware.Graphics;
+﻿using System;
+using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Rendering;
+using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
 {
@@ -23,6 +25,9 @@ namespace Centipede.Game
             this.listAs<Street>();
         }
 
+        public Intersection Node1 { get { return this.node1; } }
+        public Intersection Node2 { get { return this.node2; } }
+
         public override void Update(TimeSpan elapsedTime)
         {
 
@@ -32,9 +37,18 @@ namespace Centipede.Game
         {
             var geo = GeometryManager.Instance.Primitives;
 
-            geo.Color = Color.DarkGray;
+            geo.Color = Color.DarkGray.WithAlpha(0.5f).Premultiplied;
             geo.LineWidth = this.width.NumericValue - 1;
             geo.DrawLine(this.node1.Position.Vector, this.node2.Position.Vector);
+        }
+
+        public Intersection OtherNode(Intersection node)
+        {
+#if DEBUG
+            if(node != this.node1 && node != this.node2)
+                throw new Exception("Given node is invalid");
+#endif
+            return node == this.node1 ? this.node2 : this.node1;
         }
     }
 }
