@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
 using amulware.Graphics;
-using Bearded.Utilities;
 using Bearded.Utilities.Input;
 using Centipede.Game;
 using Centipede.Rendering;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
-using PixelFormat = System.Drawing.Imaging.PixelFormat;
-using PixelFormatGL = OpenTK.Graphics.OpenGL.PixelFormat;
 
 namespace Centipede
 {

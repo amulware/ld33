@@ -49,12 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Game\Generation\Block.cs" />
+    <Compile Include="Game\Generation\Street.cs" />
+    <Compile Include="Game\Generation\StreetGenerator.cs" />
     <Compile Include="Game\objects\Building.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiPathPart.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiHead.cs" />
     <Compile Include="Game\objects\CentipedeParts\Centipart.cs" />
     <Compile Include="Game\objects\Centipede.cs" />
     <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\objects\Intersection.cs" />
+    <Compile Include="Game\objects\Street.cs" />
     <Compile Include="Rendering\GameRenderer.cs" />
     <Compile Include="Game\GameState.cs" />
     <Compile Include="GameWindow.cs" />

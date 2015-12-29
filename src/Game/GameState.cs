@@ -1,6 +1,7 @@
 ﻿using amulware.Graphics;
 using Bearded.Utilities.Collections;
 using Bearded.Utilities.SpaceTime;
+using Centipede.Game.Generation;
 
 namespace Centipede.Game
 {
@@ -18,14 +19,7 @@ namespace Centipede.Game
 
         public GameState()
         {
-
-            for (int y = -10; y < 10; y++)
-            {
-                for (int x = -10; x < 10; x++)
-                {
-                    new Building(this, new Position2(x * 20, y * 20), new Difference2(12, 12));
-                }
-            }
+            new StreetGenerator().Generate(this);
             
             var pede = new Centipede(this);
             

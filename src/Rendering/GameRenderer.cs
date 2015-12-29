@@ -50,7 +50,7 @@ namespace Centipede.Rendering
 
         private Matrix4 createProjectionMatrix(int width, int height)
         {
-            const float zNear = 0.1f;
+            const float zNear = 10f;
             const float zFar = 512f;
             const float fovy = Mathf.PiOver4;
 
