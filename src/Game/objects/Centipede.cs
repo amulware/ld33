@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Game.CentipedeParts;
 
@@ -57,7 +56,7 @@ namespace Centipede.Game
             var p = this.Position;
 
             this.setCurrentBuilding(
-                this.game.Buildings.FirstOrDefault(b => b.IsInside(p))
+                this.game.GetList<Building>().FirstOrDefault(b => b.IsInside(p))
                 );
         }
 

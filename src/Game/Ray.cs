@@ -24,7 +24,7 @@ namespace Centipede.Game
 
             var bestF = 1f;
 
-            foreach (var building in game.Buildings)
+            foreach (var building in game.GetList<Building>())
             {
                 var r = building.TryHit(this);
                 if (r.HasValue && r.Value.RayFactor < bestF)

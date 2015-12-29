@@ -16,6 +16,11 @@ namespace Centipede.Game
             this.node1 = node1;
             this.node2 = node2;
             this.width = width;
+
+            node1.AddStreet(this);
+            node2.AddStreet(this);
+
+            this.listAs<Street>();
         }
 
         public override void Update(TimeSpan elapsedTime)

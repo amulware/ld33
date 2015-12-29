@@ -23,7 +23,7 @@ namespace Centipede.Game
             this.topLeft = topLeft;
             this.size = size;
 
-            game.AddBuilding(this);
+            this.listAs<Building>();
         }
         
         public override void Update(TimeSpan elapsedTime)
