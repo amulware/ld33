@@ -2,6 +2,7 @@
 using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Rendering;
+using OpenTK;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
@@ -37,7 +38,7 @@ namespace Centipede.Game
         {
             var geo = GeometryManager.Instance.Primitives;
 
-            geo.Color = Color.DarkGray.WithAlpha(0.5f).Premultiplied;
+            geo.Color = Color.DarkGray;
             geo.LineWidth = this.width.NumericValue - 1;
             geo.DrawLine(this.node1.Position.Vector, this.node2.Position.Vector);
         }

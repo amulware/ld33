@@ -46,12 +46,6 @@ namespace Centipede.Game
                     while (oldStreet == this.currentStreet)
                     {
                         this.currentStreet = this.goalIntersection.Streets.RandomElement();
-                        Console.WriteLine("{0}/{1}",
-                            this.goalIntersection.Streets
-                            .Select((s, i) => new { Street = s, Index = i })
-                            .First(t => this.currentStreet == t.Street).Index,
-                            this.goalIntersection.Streets.Count
-                            );
                     }
                     this.goalIntersection = this.currentStreet.OtherNode(this.goalIntersection);
                 }

@@ -6,7 +6,7 @@ namespace Centipede.Game.Generation
     class Street
     {
         private readonly List<Intersection> intersections;
-        private readonly bool isEastWest;
+        private readonly Comparer<Intersection> comparer;
 
 
         public Unit Width { get; private set; }
@@ -16,7 +16,8 @@ namespace Centipede.Game.Generation
             var diffH = node1.Position.X - node2.Position.X;
             var diffV = node1.Position.Y - node2.Position.Y;
 
-            this.isEastWest = diffV.Squared > diffH.Squared;
+            var isEastWest = diffH.Squared > diffV.Squared;
+            this.comparer = isEastWest ? eastWestComparer : southNorthComparer;
 
             this.Width = width;
 
@@ -41,11 +42,6 @@ namespace Centipede.Game.Generation
         public int AddIntersection(Intersection intersection)
         {
             return this.intersections.AddSorted(intersection, this.comparer);
-        }
-
-        private Comparer<Intersection> comparer
-        {
-            get { return this.isEastWest ? eastWestComparer : southNorthComparer; }
         }
 
         private static readonly Comparer<Intersection> eastWestComparer =
