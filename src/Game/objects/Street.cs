@@ -2,7 +2,6 @@
 using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Rendering;
-using OpenTK;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
@@ -28,6 +27,7 @@ namespace Centipede.Game
 
         public Intersection Node1 { get { return this.node1; } }
         public Intersection Node2 { get { return this.node2; } }
+        public Radius Width { get { return this.width; } }
 
         public override void Update(TimeSpan elapsedTime)
         {
