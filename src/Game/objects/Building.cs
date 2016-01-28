@@ -44,11 +44,11 @@ namespace Centipede.Game
 
         public HitResult? TryHit(Ray ray)
         {
-            var start = ray.Start.Vector;
-            var direction = ray.Direction.Vector;
+            var start = ray.Start.NumericValue;
+            var direction = ray.Direction.NumericValue;
 
-            var topLeft = this.topLeft.Vector;
-            var bottomRight = (this.topLeft + this.size).Vector;
+            var topLeft = this.topLeft.NumericValue;
+            var bottomRight = (this.topLeft + this.size).NumericValue;
 
             HitResult? result = null;
 
@@ -137,7 +137,7 @@ namespace Centipede.Game
         {
             var geo = GeometryManager.Instance.Buildings;
 
-            geo.DrawBuilding(this.topLeft.Vector, this.size.Vector, this.height.NumericValue, this.interiorAlpha);
+            geo.DrawBuilding(this.topLeft.NumericValue, this.size.NumericValue, this.height.NumericValue, this.interiorAlpha);
 
         }
     }

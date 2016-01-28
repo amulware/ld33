@@ -3,6 +3,7 @@ using Bearded.Utilities;
 using Bearded.Utilities.Linq;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Rendering;
+using OpenTK;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
@@ -23,24 +24,22 @@ namespace Centipede.Game
 
             this.currentStreet = this.game.GetList<Street>().RandomElement();
             var streetVector = (this.currentStreet.Node1.Position - this.currentStreet.Node2.Position)
-                .Vector.Normalized();
-            this.position = this.currentStreet.Node1.Position +
-                            (this.currentStreet.Node2.Position - this.currentStreet.Node1.Position) *
-                            StaticRandom.Float()
-                            + new Difference2(streetVector)
-                             * (this.currentStreet.Width.NumericValue * StaticRandom.Float(-1, 1));
+                .NumericValue.PerpendicularLeft.Normalized();
+            this.position = this.currentStreet.Node1.Position
+                .LerpTo(this.currentStreet.Node2.Position, StaticRandom.Float())
+                + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
             this.goalIntersection = StaticRandom.Bool() ? this.currentStreet.Node1 : this.currentStreet.Node2;
             this.updateGoalPoint();
         }
 
         public override void Update(TimeSpan elapsedTime)
         {
-            var maxMoveThisFrame = 2.U() * (float)elapsedTime.NumericValue;
+            var maxMoveThisFrame = 2.U() / new TimeSpan(1) * elapsedTime;
 
             var differenceToGoal = this.goalPoint - this.position;
             var distanceToGoal = differenceToGoal.Length;
 
-            if (distanceToGoal.Units < maxMoveThisFrame)
+            if (distanceToGoal < maxMoveThisFrame)
             {
                 this.position = this.goalPoint;
                 if (this.goalIntersection.Streets.Count > 1)
@@ -56,8 +55,7 @@ namespace Centipede.Game
             }
             else
             {
-                this.position += new Difference2(differenceToGoal.Vector / distanceToGoal.NumericValue) *
-                                 maxMoveThisFrame.NumericValue;
+                this.position += differenceToGoal / distanceToGoal * maxMoveThisFrame;
             }
 
         }
@@ -65,15 +63,19 @@ namespace Centipede.Game
         private void updateGoalPoint()
         {
             var streetVector = (this.currentStreet.Node1.Position - this.currentStreet.Node2.Position)
-                .Vector.Normalized();
+                .NumericValue.PerpendicularLeft.Normalized();
             this.goalPoint = this.goalIntersection.Position
-                             + new Difference2(streetVector)
-                             * (this.currentStreet.Width.NumericValue * StaticRandom.Float(-1, 1));
+                             + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
         }
 
         public override void Draw()
         {
-            this.sprite.DrawSprite(this.position.Vector, 0, 1);
+            this.sprite.DrawSprite(this.position.NumericValue, 0, 1);
+
+            //var geo = GeometryManager.Instance.Primitives;
+            //geo.Color = Color.Green;
+            //geo.DrawRectangle(this.goalPoint.Vector, new Vector2(0.5f, 0.5f));
+            //geo.DrawLine(this.position.Vector, this.goalPoint.Vector);
         }
     }
 }

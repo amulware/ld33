@@ -23,7 +23,7 @@ namespace Centipede.Game.CentipedeParts
             var geo = GeometryManager.Instance.Primitives;
 
             geo.Color = Color.IndianRed;
-            geo.DrawCircle(this.position.Vector, 0.9f);
+            geo.DrawCircle(this.position.NumericValue, 0.9f);
 
         }
     }

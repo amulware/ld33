@@ -198,7 +198,7 @@ namespace Centipede.Game.Generation
                     var intersections = street.Intersections;
                     for (int i = 1; i < intersections.Count; i++)
                     {
-                        new Game.Street(game, intersections[i - 1], intersections[i], Radius.FromValue(w));
+                        new Game.Street(game, intersections[i - 1], intersections[i], w);
                     }
                 }
             }

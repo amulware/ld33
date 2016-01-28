@@ -23,7 +23,7 @@ namespace Centipede.Game
         {
             this.head = new CentiHead(game);
 
-            this.tailPath.AddFirst(new CentiPathPart(this.head.Position, Radius.FromValue(0)));
+            this.tailPath.AddFirst(new CentiPathPart(this.head.Position, 0.U()));
 
             for (int i = 0; i < length; i++)
             {
@@ -42,7 +42,7 @@ namespace Centipede.Game
 
             this.updateParts(currentPathPart);
 
-            if (currentPathPart.DistanceToPrevious > Radius.FromValue(0.5f))
+            if (currentPathPart.DistanceToPrevious > 0.5f.U())
             {
                 this.tailPath.AddFirst(currentPathPart);
                 this.lastSaved = currentPathPart;
@@ -77,16 +77,16 @@ namespace Centipede.Game
         private void updateParts(CentiPathPart startPosition)
         {
             var intervalStart = startPosition;
-            var intervalStartDistance = 0f;
+            var intervalStartDistance = 0.U();
 
-            var intervalLength = intervalStart.DistanceToPrevious.NumericValue;
+            var intervalLength = intervalStart.DistanceToPrevious;
 
             var intervalEndNode = this.tailPath.First;
 
 
             var i = 0;
 
-            var partDistanceStep = 1.5f;
+            var partDistanceStep = 1.5f.U();
             var partDistance = partDistanceStep;
 
             while (true)
@@ -94,7 +94,7 @@ namespace Centipede.Game
                 var intervalEnd = intervalEndNode.Value;
                 var intervalEndDistance = intervalStartDistance + intervalLength;
 
-                if (intervalLength > 0)
+                if (intervalLength > 0.U())
                 {
                     while (partDistance < intervalEndDistance)
                     {
@@ -103,7 +103,7 @@ namespace Centipede.Game
 
                         var p = (partDistance - intervalStartDistance) / intervalLength;
 
-                        part.SetPosition(intervalStart.Position + (intervalEnd.Position - intervalStart.Position) * p);
+                        part.SetPosition(intervalStart.Position.LerpTo(intervalEnd.Position, p));
 
                         partDistance += partDistanceStep;
                         i++;
@@ -131,7 +131,7 @@ namespace Centipede.Game
 
                 intervalStart = intervalEnd;
                 intervalStartDistance = intervalEndDistance;
-                intervalLength = intervalStart.DistanceToPrevious.NumericValue;
+                intervalLength = intervalStart.DistanceToPrevious;
 
                 intervalEndNode = intervalEndNode.Next;
             }

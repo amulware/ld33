@@ -22,7 +22,7 @@ namespace Centipede.Game
 
         public override void Draw()
         {
-            var xy = this.parent.Position.Vector;
+            var xy = this.parent.Position.NumericValue;
 
             SurfaceManager.Instance.ModelviewMatrix.Matrix
                 = Matrix4.LookAt(

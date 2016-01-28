@@ -10,9 +10,9 @@ namespace Centipede.Game
     {
         private readonly Intersection node1;
         private readonly Intersection node2;
-        private readonly Radius width;
+        private readonly Unit width;
 
-        public Street(GameState game, Intersection node1, Intersection node2, Radius width)
+        public Street(GameState game, Intersection node1, Intersection node2, Unit width)
             : base(game)
         {
             this.node1 = node1;
@@ -27,7 +27,7 @@ namespace Centipede.Game
 
         public Intersection Node1 { get { return this.node1; } }
         public Intersection Node2 { get { return this.node2; } }
-        public Radius Width { get { return this.width; } }
+        public Unit Width { get { return this.width; } }
 
         public override void Update(TimeSpan elapsedTime)
         {
@@ -40,7 +40,7 @@ namespace Centipede.Game
 
             geo.Color = Color.DarkGray;
             geo.LineWidth = this.width.NumericValue - 1;
-            geo.DrawLine(this.node1.Position.Vector, this.node2.Position.Vector);
+            geo.DrawLine(this.node1.Position.NumericValue, this.node2.Position.NumericValue);
         }
 
         public Intersection OtherNode(Intersection node)

@@ -39,15 +39,15 @@ namespace Centipede.Game
 
             if (result.HasValue)
             {
-                var p = result.Value.Point.Vector;
+                var p = result.Value.Point.NumericValue;
                 geo.Color = Color.Green;
-                geo.DrawLine(this.Start.Vector, p);
+                geo.DrawLine(this.Start.NumericValue, p);
                 geo.DrawCircle(p, 0.2f);
             }
             else
             {
                 geo.Color = Color.Red;
-                geo.DrawLine(this.Start.Vector, (this.Start + this.Direction).Vector);
+                geo.DrawLine(this.Start.NumericValue, (this.Start + this.Direction).NumericValue);
             }
 
             return result;

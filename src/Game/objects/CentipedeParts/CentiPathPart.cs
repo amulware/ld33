@@ -5,7 +5,7 @@ namespace Centipede.Game.CentipedeParts
     struct CentiPathPart
     {
         private readonly Position2 position;
-        private readonly Radius distanceToPrevious;
+        private readonly Unit distanceToPrevious;
 
         public CentiPathPart(Position2 position, CentiPathPart previous)
         {
@@ -13,13 +13,13 @@ namespace Centipede.Game.CentipedeParts
             this.distanceToPrevious = (position - previous.position).Length;
         }
 
-        public CentiPathPart(Position2 position, Radius distanceToPrevious)
+        public CentiPathPart(Position2 position, Unit distanceToPrevious)
         {
             this.position = position;
             this.distanceToPrevious = distanceToPrevious;
         }
 
         public Position2 Position { get { return this.position; } }
-        public Radius DistanceToPrevious { get { return this.distanceToPrevious; } }
+        public Unit DistanceToPrevious { get { return this.distanceToPrevious; } }
     }
 }

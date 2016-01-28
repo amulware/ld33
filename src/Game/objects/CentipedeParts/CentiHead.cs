@@ -11,9 +11,9 @@ namespace Centipede.Game.CentipedeParts
     {
         private readonly GameState game;
         private Position2 position;
-        private Angle turnSpeed;
+        private AngularVelocity turnSpeed;
         private Direction2 rotation;
-        private Unit speed;
+        private Speed speed;
 
         private Unit distanceTraveled;
 
@@ -34,9 +34,9 @@ namespace Centipede.Game.CentipedeParts
             var rayAngle = Angle.FromRadians(0.7f);
             var rayLength = 2.5f.U();
 
-            var rayLeft = new Ray(this.position, Difference2.In(this.Direction + rayAngle, rayLength))
+            var rayLeft = new Ray(this.position, (this.Direction + rayAngle) * rayLength)
                 .Shoot(this.game);
-            var rayRight = new Ray(this.position, Difference2.In(this.Direction - rayAngle, rayLength))
+            var rayRight = new Ray(this.position, (this.Direction - rayAngle) * rayLength)
                 .Shoot(this.game);
 
             var vVector = this.Direction.Vector;
@@ -89,17 +89,17 @@ namespace Centipede.Game.CentipedeParts
         {
             var t = (float)elapsedTime.NumericValue;
 
-            this.speed += new Unit(acceleration * t * 50);
+            this.speed += new Acceleration(acceleration * 50) * elapsedTime;
             this.speed *= Mathf.Pow(1e-3f, t);
 
-            this.turnSpeed += Angle.FromRadians(leftRight * t * 5);
+            this.turnSpeed += AngularAcceleration.FromRadians(leftRight * 5) * elapsedTime;
             this.turnSpeed *= Mathf.Pow(1e-7f, t);
 
-            this.rotation += this.turnSpeed * (t * this.speed.NumericValue);
+            this.rotation += this.turnSpeed * (elapsedTime * this.speed.NumericValue);
 
-            this.position += Difference2.In(this.rotation, this.speed) * t;
+            this.position += this.rotation * this.speed * elapsedTime;
 
-            this.distanceTraveled += this.speed * t;
+            this.distanceTraveled += this.speed * elapsedTime;
         }
 
         public void Draw()
@@ -107,10 +107,10 @@ namespace Centipede.Game.CentipedeParts
             var geo = GeometryManager.Instance.Primitives;
 
             geo.Color = Color.IndianRed.WithAlpha(0.5f);
-            geo.DrawCircle(this.position.Vector, 1);
+            geo.DrawCircle(this.position.NumericValue, 1);
 
             geo.LineWidth = 0.1f;
-            geo.DrawLine(this.position.Vector, (this.position + Difference2.In(this.rotation, Unit.One * 2)).Vector);
+            geo.DrawLine(this.position.NumericValue, (this.position + this.rotation * 2.U()).NumericValue);
 
         }
 
