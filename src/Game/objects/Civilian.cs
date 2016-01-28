@@ -34,7 +34,7 @@ namespace Centipede.Game
 
         public override void Update(TimeSpan elapsedTime)
         {
-            var maxMoveThisFrame = 2.U() / new TimeSpan(1) * elapsedTime;
+            var maxMoveThisFrame = new Speed(2) * elapsedTime;
 
             var differenceToGoal = this.goalPoint - this.position;
             var distanceToGoal = differenceToGoal.Length;
