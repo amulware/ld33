@@ -53,6 +53,7 @@
     <Compile Include="Game\Generation\Block.cs" />
     <Compile Include="Game\Generation\Street.cs" />
     <Compile Include="Game\Generation\StreetGenerator.cs" />
+    <Compile Include="Game\level\Level.cs" />
     <Compile Include="Game\objects\Building.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiPathPart.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiHead.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Game\objects\Civilian.cs" />
     <Compile Include="Game\objects\Intersection.cs" />
     <Compile Include="Game\objects\Street.cs" />
+    <Compile Include="Game\level\TileInfo.cs" />
     <Compile Include="Rendering\GameRenderer.cs" />
     <Compile Include="Game\GameState.cs" />
     <Compile Include="GameWindow.cs" />

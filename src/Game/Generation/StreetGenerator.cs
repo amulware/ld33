@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Bearded.Utilities;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -9,9 +7,9 @@ namespace Centipede.Game.Generation
 {
     class StreetGenerator
     {
-        public void Generate(GameState game)
+        public void Generate(GameState game, float width, float height)
         {
-            var root = this.makeRootSquare();
+            var root = this.makeRootSquare(width, height);
 
             this.fillBlock(root);
 
@@ -204,9 +202,9 @@ namespace Centipede.Game.Generation
             }
         }
 
-        private Block makeRootSquare()
+        private Block makeRootSquare(float width, float height)
         {
-            return Block.MakeRoot(200, 200);
+            return Block.MakeRoot(width, height);
         }
     }
 }

@@ -11,7 +11,9 @@ namespace Centipede.Game
     sealed class GameState
     {
         private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
-        private readonly Dictionary<Type, object> lists = new Dictionary<Type, object>(); 
+        private readonly Dictionary<Type, object> lists = new Dictionary<Type, object>();
+
+        private readonly Level level;
 
         private Instant time = Instant.Zero;
 
@@ -20,7 +22,9 @@ namespace Centipede.Game
 
         public GameState()
         {
-            new StreetGenerator().Generate(this);
+            new StreetGenerator().Generate(this, 200, 200);
+
+            this.level = new Level(this, 200, 200);
             
             var pede = new Centipede(this);
             
@@ -74,6 +78,8 @@ namespace Centipede.Game
             {
                 gameObject.Draw();
             }
+
+            //this.level.DebugDraw();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Centipede.Rendering
         public Matrix4Uniform ModelviewMatrix { get; private set; }
 
         public IndexedSurface<PrimitiveVertexData> Primitives { get; private set; }
+        public IndexedSurface<PrimitiveVertexData> PrimitivesOverlay { get; private set; }
         public IndexedSurface<UVColorVertexData> Text { get; private set; }
 
         public IndexedSurface<BuildingVertex> Buildings { get; private set; }
@@ -33,6 +34,10 @@ namespace Centipede.Rendering
             this.Primitives = new IndexedSurface<PrimitiveVertexData>();
             this.Primitives.AddSettings(sharedSettings);
             shaderMan["primitives"].UseOnSurface(this.Primitives);
+
+            this.PrimitivesOverlay = new IndexedSurface<PrimitiveVertexData>();
+            this.PrimitivesOverlay.AddSettings(sharedSettings);
+            shaderMan["primitives"].UseOnSurface(this.PrimitivesOverlay);
 
             this.Text = new IndexedSurface<UVColorVertexData>();
             this.Text.AddSettings(this.ProjectionMatrix, this.ModelviewMatrix,
