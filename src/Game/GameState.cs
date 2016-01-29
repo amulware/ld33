@@ -19,6 +19,8 @@ namespace Centipede.Game
 
         public Instant Time { get { return this.time; } }
 
+        public Level Level { get { return this.level; } }
+
 
         public GameState()
         {
@@ -74,12 +76,12 @@ namespace Centipede.Game
 
         public void Render()
         {
+            //this.level.DebugDraw();
+
             foreach (var gameObject in this.gameObjects)
             {
                 gameObject.Draw();
             }
-
-            //this.level.DebugDraw();
         }
     }
 }

@@ -17,6 +17,9 @@ namespace Centipede.Game
 
         public bool RevealInside { get; set; }
 
+        public Position2 TopLeft { get { return this.topLeft; } }
+        public Difference2 Size { get { return this.size; } }
+
         public Building(GameState game, Position2 topLeft, Difference2 size)
             : base(game)
         {

@@ -81,7 +81,6 @@ namespace Centipede.Game.CentipedeParts
 
             leftRight = leftRight.Clamped(-1, 1);
 
-
             this.updateMovement(elapsedTime, controlState.Acceleration, leftRight);
         }
 
