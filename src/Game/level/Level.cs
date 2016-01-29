@@ -6,7 +6,6 @@ using Bearded.Utilities.SpaceTime;
 using Bearded.Utilities.Tilemaps.Rectangular;
 using Centipede.Rendering;
 using OpenTK;
-using OpenTK.Graphics.ES20;
 
 namespace Centipede.Game
 {

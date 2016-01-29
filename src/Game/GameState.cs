@@ -24,9 +24,12 @@ namespace Centipede.Game
 
         public GameState()
         {
-            new StreetGenerator().Generate(this, 200, 200);
+            var width = 200;
+            var height = 200;
 
-            this.level = new Level(this, 200, 200);
+            new StreetGenerator().Generate(this, width, height);
+
+            this.level = new Level(this, width, height);
             
             var pede = new Centipede(this);
             

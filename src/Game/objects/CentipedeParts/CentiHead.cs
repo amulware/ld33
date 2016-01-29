@@ -1,3 +1,5 @@
+using System;
+using System.Diagnostics;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;

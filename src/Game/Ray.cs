@@ -24,15 +24,22 @@ namespace Centipede.Game
 
             var bestF = 1f;
 
-            foreach (var building in game.GetList<Building>())
+            foreach (var tile in game.Level.CastRay(this))
             {
-                var r = building.TryHit(this);
-                if (r.HasValue && r.Value.RayFactor < bestF)
+                if (!tile.IsValid)
+                    continue;
+
+                foreach (var building in tile.Value.Buildings)
                 {
-                    bestF = r.Value.RayFactor;
-                    result = r.Value;
+                    var r = building.TryHit(this);
+                    if (r.HasValue && r.Value.RayFactor < bestF)
+                    {
+                        bestF = r.Value.RayFactor;
+                        result = r.Value;
+                    }
                 }
             }
+
 
             var geo = GeometryManager.Instance.Primitives;
             geo.LineWidth = 0.05f;
