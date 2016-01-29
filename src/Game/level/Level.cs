@@ -123,6 +123,8 @@ namespace Centipede.Game
 
         public IEnumerable<Tile<TileInfo>> CastRay(Ray ray)
         {
+            // check http://playtechs.blogspot.nl/2007/03/raytracing-on-grid.html
+            // for possible optimisations
             var start = ray.Start.NumericValue;
             var diff = ray.Direction.NumericValue;
             float startX, startY;
