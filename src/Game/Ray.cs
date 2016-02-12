@@ -40,7 +40,7 @@ namespace Centipede.Game
                 }
             }
 
-
+#if false
             var geo = GeometryManager.Instance.Primitives;
             geo.LineWidth = 0.05f;
 
@@ -56,6 +56,7 @@ namespace Centipede.Game
                 geo.Color = Color.Red;
                 geo.DrawLine(this.Start.NumericValue, (this.Start + this.Direction).NumericValue);
             }
+#endif
 
             return result;
         }

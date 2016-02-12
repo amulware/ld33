@@ -102,21 +102,44 @@ namespace Centipede.Game
             y = ty * gridSize + this.offsetY;
         }
 
+        public IEnumerable<Tile<TileInfo>> TilesIn(TileRectangle rectangle)
+        {
+            var x0 = rectangle.X0;
+            var y0 = rectangle.Y0;
+            var x1 = rectangle.X1;
+            var y1 = rectangle.Y1;
+
+            for (int y = y0; y <= y1; y++)
+                for (int x = x0; x <= x1; x++)
+                {
+                    yield return new Tile<TileInfo>(this.tilemap, x, y);
+                }
+        }
+
+        public TileRectangle RectangleIntersecting(Position2 point, Difference2 size)
+        {
+            var tl = point.NumericValue;
+            var br = tl + size.NumericValue;
+            int x0, x1, y0, y1;
+            this.positionToTile(tl.X, tl.Y, out x0, out y0);
+            this.positionToTile(br.X, br.Y, out x1, out y1);
+
+            return new TileRectangle(x0, y0, x1, y1);
+        }
+
+        public IEnumerable<Tile<TileInfo>> TilesIntersecting(Position2 point, Difference2 size)
+        {
+            return this.TilesIn(this.RectangleIntersecting(point, size));
+        }
+
         private void fillBuildingsIntoTiles(GameState game)
         {
             foreach (var building in game.GetList<Building>())
             {
-                var tl = building.TopLeft.NumericValue;
-                var br = tl + building.Size.NumericValue;
-                int x0, x1, y0, y1;
-                this.positionToTile(tl.X, tl.Y, out x0, out y0);
-                this.positionToTile(br.X, br.Y, out x1, out y1);
-
-                for (int y = y0; y <= y1; y++)
-                    for (int x = x0; x <= x1; x++)
-                    {
-                        this.tilemap[x, y].AddBuilding(building);
-                    }
+                foreach (var tile in this.TilesIntersecting(building.TopLeft, building.Size))
+                {
+                    tile.Value.AddBuilding(building);
+                }
             }
         }
 

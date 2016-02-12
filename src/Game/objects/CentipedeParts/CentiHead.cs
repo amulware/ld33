@@ -34,7 +34,7 @@ namespace Centipede.Game.CentipedeParts
                 ).Clamped(-1, 1);
 
             var rayAngle = Angle.FromRadians(0.7f);
-            var rayLength = 2.5f.U();
+            var rayLength = 2.5.U();
 
             var rayLeft = new Ray(this.position, (this.Direction + rayAngle) * rayLength)
                 .Shoot(this.game);
@@ -82,6 +82,7 @@ namespace Centipede.Game.CentipedeParts
             }
 
             leftRight = leftRight.Clamped(-1, 1);
+
 
             this.updateMovement(elapsedTime, controlState.Acceleration, leftRight);
         }

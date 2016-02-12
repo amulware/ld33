@@ -53,7 +53,10 @@
     <Compile Include="Game\Generation\Block.cs" />
     <Compile Include="Game\Generation\Street.cs" />
     <Compile Include="Game\Generation\StreetGenerator.cs" />
+    <Compile Include="Game\level\IProjectileCollider.cs" />
     <Compile Include="Game\level\Level.cs" />
+    <Compile Include="Game\level\ProjectileColliderTileManager.cs" />
+    <Compile Include="Game\level\TileRectangle.cs" />
     <Compile Include="Game\objects\Building.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiPathPart.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiHead.cs" />
