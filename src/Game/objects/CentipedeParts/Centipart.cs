@@ -25,6 +25,17 @@ namespace Centipede.Game.CentipedeParts
         public void SetPosition(Position2 position)
         {
             this.position = position;
+            this.update();
+        }
+
+        protected void update()
+        {
+            this.projectileCollider.Update();
+        }
+
+        public void Delete()
+        {
+            this.projectileCollider.Cleanup();
         }
 
         public virtual void Draw()

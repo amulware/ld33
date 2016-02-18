@@ -162,5 +162,13 @@ namespace Centipede.Game
 #endif
         }
 
+        protected override void onDelete()
+        {
+            this.head.Delete();
+            foreach (var part in this.parts)
+            {
+                part.Delete();
+            }
+        }
     }
 }
