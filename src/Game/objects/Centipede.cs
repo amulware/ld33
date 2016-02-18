@@ -7,12 +7,12 @@ namespace Centipede.Game
 {
     sealed class Centipede : GameObject, IPositionable
     {
-        private CentiHead head;
-        private List<Centipart> parts = new List<Centipart>();
+        private readonly CentiHead head;
+        private readonly List<Centipart> parts = new List<Centipart>();
 
-        private LinkedList<CentiPathPart> tailPath = new LinkedList<CentiPathPart>();
+        private readonly LinkedList<CentiPathPart> tailPath = new LinkedList<CentiPathPart>();
 
-        private KeyboardController controller = new KeyboardController();
+        private readonly KeyboardController controller = new KeyboardController();
 
         private CentiPathPart lastSaved;
 
@@ -27,7 +27,7 @@ namespace Centipede.Game
 
             for (int i = 0; i < length; i++)
             {
-                this.parts.Add(new Centipart());
+                this.parts.Add(new Centipart(game));
             }
         }
 

@@ -4,21 +4,30 @@ using Centipede.Rendering;
 
 namespace Centipede.Game.CentipedeParts
 {
-    class Centipart
+    class Centipart : IProjectileCollider
     {
-        private Position2 position;
+        protected Position2 position;
+
+        private readonly ProjectileColliderTileManager projectileCollider;
+
+        public Centipart(GameState game)
+        {
+            this.projectileCollider = new ProjectileColliderTileManager(game, this);
+        }
 
         public Position2 Position
         {
             get { return this.position; }
         }
+        Position2 IProjectileCollider.Center { get { return this.position; } }
+        Unit IProjectileCollider.Radius { get { return 0.9.U(); } }
 
         public void SetPosition(Position2 position)
         {
             this.position = position;
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
             var geo = GeometryManager.Instance.Primitives;
 
@@ -26,5 +35,6 @@ namespace Centipede.Game.CentipedeParts
             geo.DrawCircle(this.position.NumericValue, 0.9f);
 
         }
+
     }
 }

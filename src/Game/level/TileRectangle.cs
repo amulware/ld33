@@ -21,8 +21,8 @@ namespace Centipede.Game
         public int Y0 { get { return this.y0; } }
         public int X1 { get { return this.x1; } }
         public int Y1 { get { return this.y1; } }
-        public int W { get { return this.x1 - this.x0; } }
-        public int H { get { return this.y1 - this.y0; } }
+        public int W { get { return this.x1 - this.x0 + 1; } }
+        public int H { get { return this.y1 - this.y0 + 1; } }
 
         public int Tiles { get { return this.W * this.H; } }
 

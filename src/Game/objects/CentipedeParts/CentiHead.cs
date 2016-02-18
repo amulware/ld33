@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using amulware.Graphics;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -9,25 +7,31 @@ using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game.CentipedeParts
 {
-    class CentiHead
+    class CentiHead : Centipart
     {
         private readonly GameState game;
-        private Position2 position;
         private AngularVelocity turnSpeed;
         private Direction2 rotation;
         private Speed speed;
 
         private Unit distanceTraveled;
 
-        public Position2 Position { get { return this.position; } }
         public Direction2 Direction { get { return this.rotation; } }
 
         public CentiHead(GameState game)
+            : base(game)
         {
             this.game = game;
         }
 
         public void Update(Instant time, TimeSpan elapsedTime, ControlState controlState)
+        {
+            var leftRight = this.helpSteer(controlState).Clamped(-1, 1);
+
+            this.updateMovement(elapsedTime, controlState.Acceleration, leftRight);
+        }
+
+        private float helpSteer(ControlState controlState)
         {
             var leftRight = (
                 controlState.LeftRight * 2f
@@ -36,55 +40,31 @@ namespace Centipede.Game.CentipedeParts
             var rayAngle = Angle.FromRadians(0.7f);
             var rayLength = 2.5.U();
 
-            var rayLeft = new Ray(this.position, (this.Direction + rayAngle) * rayLength)
-                .Shoot(this.game);
-            var rayRight = new Ray(this.position, (this.Direction - rayAngle) * rayLength)
-                .Shoot(this.game);
-
             var vVector = this.Direction.Vector;
 
-            if (rayLeft.HasValue)
+            leftRight += this.modifySteering(rayAngle, rayLength, vVector);
+            leftRight -= this.modifySteering(-rayAngle, rayLength, vVector);
+
+            return leftRight;
+        }
+
+        private float modifySteering(Angle rayAngle, Unit rayLength, Vector2 vVector)
+        {
+            var ray = new Ray(this.position, (this.Direction + rayAngle) * rayLength)
+                .Shoot(this.game);
+
+            if (ray.HasValue)
             {
-                var r = rayLeft.Value;
+                var r = ray.Value;
 
                 if (!r.FromInside)
                 {
                     var f = (1 - r.RayFactor).Sqrted() * 2.5f;
 
-                    if (Vector2.Dot(r.Normal.Vector, vVector) < -0.7f)
-                    {
-                        leftRight += f;
-                    }
-                    else
-                    {
-                        leftRight += -f;
-                    }
+                    return Vector2.Dot(r.Normal.Vector, vVector) < -0.7f ? f : -f;
                 }
             }
-
-            if (rayRight.HasValue)
-            {
-                var r = rayRight.Value;
-
-                if (!r.FromInside)
-                {
-                    var f = (1 - r.RayFactor).Sqrted() * 2.5f;
-
-                    if (Vector2.Dot(r.Normal.Vector, vVector) < -0.7f)
-                    {
-                        leftRight += -f;
-                    }
-                    else
-                    {
-                        leftRight += f;
-                    }
-                }
-            }
-
-            leftRight = leftRight.Clamped(-1, 1);
-
-
-            this.updateMovement(elapsedTime, controlState.Acceleration, leftRight);
+            return 0;
         }
 
         private void updateMovement(TimeSpan elapsedTime, float acceleration, float leftRight)
@@ -104,7 +84,7 @@ namespace Centipede.Game.CentipedeParts
             this.distanceTraveled += this.speed * elapsedTime;
         }
 
-        public void Draw()
+        public override void Draw()
         {
             var geo = GeometryManager.Instance.Primitives;
 
