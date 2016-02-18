@@ -18,7 +18,7 @@ namespace Centipede.Game
         public Position2 Start { get { return this.start; } }
         public Difference2 Direction { get { return this.direction; } }
 
-        public HitResult? Shoot(GameState game)
+        public HitResult? Shoot(GameState game, bool hitBuildings, bool hitProjectileColliders)
         {
             HitResult? result = null;
 
@@ -29,19 +29,56 @@ namespace Centipede.Game
                 if (!tile.IsValid)
                     continue;
 
-                foreach (var building in tile.Value.Buildings)
+                var info = tile.Value;
+
+                if (hitBuildings)
                 {
-                    var r = building.TryHit(this);
-                    if (r.HasValue && r.Value.RayFactor < bestF)
+                    foreach (var building in info.Buildings)
                     {
-                        bestF = r.Value.RayFactor;
-                        result = r.Value;
+                        var r = building.TryHit(this);
+                        selectBetterResult(ref result, ref bestF, r);
+                    }
+                }
+
+                if (hitProjectileColliders)
+                {
+                    foreach (var collider in info.ProjectileColliders)
+                    {
+                        var r = collider.TryHit(this);
+                        selectBetterResult(ref result, ref bestF, r);
                     }
                 }
             }
 
-#if false
-            var geo = GeometryManager.Instance.Primitives;
+            return result;
+        }
+
+        public HitResult? Shoot(GameState game, bool hitBuildings, bool hitProjectileColliders, bool debugDraw)
+        {
+            var result = this.Shoot(game, hitBuildings, hitProjectileColliders);
+
+            if (debugDraw)
+                this.drawDebug(result);
+
+            return result;
+        }
+
+        private static void selectBetterResult(ref HitResult? currentBest, ref float currentBestF, HitResult? candidate)
+        {
+            if (candidate.HasValue)
+            {
+                var f = candidate.Value.RayFactor;
+                if (f < currentBestF)
+                {
+                    currentBest = candidate;
+                    currentBestF = f;
+                }
+            }
+        }
+
+        private void drawDebug(HitResult? result)
+        {
+            var geo = GeometryManager.Instance.PrimitivesOverlay;
             geo.LineWidth = 0.05f;
 
             if (result.HasValue)
@@ -56,9 +93,6 @@ namespace Centipede.Game
                 geo.Color = Color.Red;
                 geo.DrawLine(this.Start.NumericValue, (this.Start + this.Direction).NumericValue);
             }
-#endif
-
-            return result;
         }
     }
 }

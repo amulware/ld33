@@ -53,7 +53,7 @@ namespace Centipede.Game.CentipedeParts
         private float modifySteering(Angle rayAngle, Unit rayLength, Vector2 vVector)
         {
             var ray = new Ray(this.position, (this.Direction + rayAngle) * rayLength)
-                .Shoot(this.game);
+                .Shoot(this.game, true, true, true);
 
             if (ray.HasValue)
             {
