@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Bearded.Utilities.Linq;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Game.CentipedeParts;
 
