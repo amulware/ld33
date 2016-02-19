@@ -64,6 +64,7 @@
     <Compile Include="Game\objects\Centipede.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\objects\Civilian.cs" />
+    <Compile Include="Game\objects\CollidingParticle.cs" />
     <Compile Include="Game\objects\Intersection.cs" />
     <Compile Include="Game\objects\Street.cs" />
     <Compile Include="Game\level\TileInfo.cs" />
