@@ -55,9 +55,9 @@ namespace Centipede.Game
         {
             var p = this.Position;
 
-            this.setCurrentBuilding(
-                this.game.GetList<Building>().FirstOrDefault(b => b.IsInside(p))
-                );
+            var tile = this.game.Level[p];
+
+            this.setCurrentBuilding(!tile.IsValid ? null : tile.Value.Buildings.FirstOrDefault(b => b.IsInside(p)));
         }
 
         private void setCurrentBuilding(Building building)

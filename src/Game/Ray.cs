@@ -18,7 +18,7 @@ namespace Centipede.Game
         public Position2 Start { get { return this.start; } }
         public Difference2 Direction { get { return this.direction; } }
 
-        public HitResult? Shoot(GameState game, bool hitBuildings, bool hitProjectileColliders)
+        public HitResult? Shoot(GameState game, bool hitBuildings = true, bool hitProjectileColliders = false)
         {
             HitResult? result = null;
 
