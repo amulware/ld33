@@ -20,6 +20,7 @@ namespace Centipede.Game
         public Instant Time { get { return this.time; } }
 
         public Level Level { get { return this.level; } }
+        public Acceleration Gravity { get { return new Acceleration(-10); } }
 
 
         public GameState()

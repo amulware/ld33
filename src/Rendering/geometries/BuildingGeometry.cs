@@ -82,6 +82,9 @@ namespace Centipede.Rendering
 
         private void drawTop(Vector2 topLeft, Vector2 bottomRight, float height, float alpha = 1)
         {
+            if (alpha < 1)
+                return;
+
             var n = new Vector3(0, 0, 1);
             var uv = new Vector2();
 
