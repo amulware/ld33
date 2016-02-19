@@ -1,4 +1,5 @@
-﻿using Bearded.Utilities.Math;
+﻿using System.Linq;
+using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Rendering;
 using OpenTK;
@@ -9,6 +10,8 @@ namespace Centipede.Game
     {
         private readonly IPositionable parent;
 
+        private Building currentlyInside;
+
         public PlayerView(GameState game, IPositionable parent)
             : base(game)
         {
@@ -17,8 +20,32 @@ namespace Centipede.Game
 
         public override void Update(TimeSpan elapsedTime)
         {
-
+            this.updateCurrentBuilding();
         }
+
+        private void updateCurrentBuilding()
+        {
+            var p = this.parent.Position;
+
+            var tile = this.game.Level[p];
+
+            this.setCurrentBuilding(!tile.IsValid ? null : tile.Value.Buildings.FirstOrDefault(b => b.IsInside(p)));
+        }
+
+        private void setCurrentBuilding(Building building)
+        {
+            if (building == this.currentlyInside)
+                return;
+
+            if (this.currentlyInside != null)
+                this.currentlyInside.RevealInside = false;
+
+            if (building != null)
+                building.RevealInside = true;
+
+            this.currentlyInside = building;
+        }
+
 
         public override void Draw()
         {
