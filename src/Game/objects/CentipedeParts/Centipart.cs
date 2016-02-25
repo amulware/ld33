@@ -15,11 +15,7 @@ namespace Centipede.Game.CentipedeParts
             this.projectileCollider = new ProjectileColliderTileManager(game, this);
         }
 
-        public Position2 Position
-        {
-            get { return this.position; }
-        }
-        Position2 IProjectileCollider.Center { get { return this.position; } }
+        public Position2 Position { get { return this.position; } }
         Unit IProjectileCollider.Radius { get { return 0.9.U(); } }
 
         public void SetPosition(Position2 position)

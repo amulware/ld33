@@ -4,9 +4,8 @@ using OpenTK;
 
 namespace Centipede.Game
 {
-    interface IProjectileCollider
+    interface IProjectileCollider : IPositionable
     {
-        Position2 Center { get; }
         Unit Radius { get; }
     }
 
@@ -16,7 +15,7 @@ namespace Centipede.Game
         {
             var start = ray.Start.NumericValue;
             var dir = ray.Direction.NumericValue;
-            var center = collider.Center.NumericValue;
+            var center = collider.Position.NumericValue;
             var radius = collider.Radius.NumericValue;
 
             var a = start.X - center.X;

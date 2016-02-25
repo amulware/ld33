@@ -57,9 +57,4 @@ namespace Centipede.Game
                 );
         }
     }
-
-    interface IPositionable
-    {
-        Position2 Position { get; }
-    }
 }

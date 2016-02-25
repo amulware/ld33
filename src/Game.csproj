@@ -53,9 +53,14 @@
     <Compile Include="Game\Generation\Block.cs" />
     <Compile Include="Game\Generation\Street.cs" />
     <Compile Include="Game\Generation\StreetGenerator.cs" />
-    <Compile Include="Game\level\IProjectileCollider.cs" />
+    <Compile Include="Game\interfaces\IGameEvent.cs" />
+    <Compile Include="Game\interfaces\IGameEventListener.cs" />
+    <Compile Include="Game\interfaces\IProjectileCollider.cs" />
+    <Compile Include="Game\interfaces\IPositionable.cs" />
+    <Compile Include="Game\level\GameEventListenerTileManager.cs" />
     <Compile Include="Game\level\Level.cs" />
     <Compile Include="Game\level\ProjectileColliderTileManager.cs" />
+    <Compile Include="Game\level\SinglePointTileContainmantManager.cs" />
     <Compile Include="Game\level\TileRectangle.cs" />
     <Compile Include="Game\objects\Building.cs" />
     <Compile Include="Game\objects\CentipedeParts\CentiPathPart.cs" />

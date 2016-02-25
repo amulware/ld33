@@ -8,7 +8,7 @@ using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
 {
-    internal class Civilian : GameObject
+    internal class Civilian : GameObject, IGameEventListener
     {
         private readonly Sprite2DGeometry sprite;
 
@@ -16,20 +16,30 @@ namespace Centipede.Game
         private Street currentStreet;
         private Intersection goalIntersection;
         private Position2 goalPoint;
+        private GameEventListenerTileManager eventListenerTileManager;
 
         public Civilian(GameState game)
             : base(game)
         {
             this.sprite = (Sprite2DGeometry)GeometryManager.Instance.GetSprite("bloob").Geometry;
 
+            this.initializePosition();
+            this.updateGoalPoint();
+
+            this.eventListenerTileManager = new GameEventListenerTileManager(game, this);
+        }
+
+        public Position2 Position { get { return this.position; } }
+
+        private void initializePosition()
+        {
             this.currentStreet = this.game.GetList<Street>().RandomElement();
             var streetVector = (this.currentStreet.Node1.Position - this.currentStreet.Node2.Position)
                 .NumericValue.PerpendicularLeft.Normalized();
             this.position = this.currentStreet.Node1.Position
                 .LerpTo(this.currentStreet.Node2.Position, StaticRandom.Float())
-                + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
+                            + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
             this.goalIntersection = StaticRandom.Bool() ? this.currentStreet.Node1 : this.currentStreet.Node2;
-            this.updateGoalPoint();
         }
 
         public override void Update(TimeSpan elapsedTime)
@@ -58,6 +68,7 @@ namespace Centipede.Game
                 this.position += differenceToGoal / distanceToGoal * maxMoveThisFrame;
             }
 
+            this.eventListenerTileManager.Update();
         }
 
         private void updateGoalPoint()
@@ -66,6 +77,11 @@ namespace Centipede.Game
                 .NumericValue.PerpendicularLeft.Normalized();
             this.goalPoint = this.goalIntersection.Position
                              + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
+        }
+
+        public bool TryPerceive(IGameEvent @event)
+        {
+            throw new System.NotImplementedException();
         }
 
         public override void Draw()
@@ -77,5 +93,6 @@ namespace Centipede.Game
             //geo.DrawRectangle(this.goalPoint.Vector, new Vector2(0.5f, 0.5f));
             //geo.DrawLine(this.position.Vector, this.goalPoint.Vector);
         }
+
     }
 }

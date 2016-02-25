@@ -35,7 +35,7 @@ namespace Centipede.Game
 
         public void Update()
         {
-            var p = this.collider.Center;
+            var p = this.collider.Position;
             var r = this.collider.Radius;
 
             var d = new Difference2(r, r);
