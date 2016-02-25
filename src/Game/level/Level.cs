@@ -153,17 +153,12 @@ namespace Centipede.Game
 
             var tileCenterX1 = tileCenterX0 + gridSize * (x1 - x0);
 
-            var geo = GeometryManager.Instance.PrimitivesOverlay;
-            
             for (var y = y0; y <= y1; y++)
             {
-                geo.Color = Color.Red * 0.75f;
-
                 var xStart = x0;
                 var tileCenterX = tileCenterX0;
                 while (xStart <= x1)
                 {
-                    geo.DrawRectangle(tileCenterX - gridSizeHalf, tileCenterY - gridSizeHalf, gridSize, gridSize);
                     if (rectIntersectsCircle(
                         new Vector2(tileCenterX, tileCenterY),
                         new Vector2(gridSizeHalf, gridSizeHalf),
@@ -180,7 +175,6 @@ namespace Centipede.Game
                 tileCenterX = tileCenterX1;
                 while (xEnd > xStart)
                 {
-                    geo.DrawRectangle(tileCenterX - gridSizeHalf, tileCenterY - gridSizeHalf, gridSize, gridSize);
                     if (rectIntersectsCircle(
                         new Vector2(tileCenterX, tileCenterY),
                         new Vector2(gridSizeHalf, gridSizeHalf),
@@ -195,10 +189,6 @@ namespace Centipede.Game
 
                 for (var x = xStart; x <= xEnd; x++)
                 {
-                    geo.Color = Color.Green * 0.75f;
-                    geo.DrawRectangle(this.GetTileTopLeft(new Tile<TileInfo>(this.tilemap, x, y)).NumericValue, this.TileSize.NumericValue);
-
-
                     yield return new Tile<TileInfo>(this.tilemap, x, y);
                 }
 
