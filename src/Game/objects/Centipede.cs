@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using amulware.Graphics;
 using Bearded.Utilities;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Game.CentipedeParts;
+using Centipede.Rendering;
+using OpenTK;
 
 namespace Centipede.Game
 {
@@ -118,6 +121,19 @@ namespace Centipede.Game
             {
                 part.Draw();
             }
+
+            var r = this.Position.X.NumericValue * 0.7f;
+            var geo = GeometryManager.Instance.PrimitivesOverlay;
+            geo.LineWidth = 0.2f;
+            //geo.Color = Color.Red * 0.3f;
+            //geo.DrawRectangle(this.Position.NumericValue - new Vector2(r), new Vector2(r * 2));
+            geo.Color = Color.Blue * 0.5f;
+            foreach (var tile in this.game.Level.TilesIntersecting(this.Position, r.U()))
+            {
+                //geo.DrawRectangle(this.game.Level.GetTileTopLeft(tile).NumericValue, this.game.Level.TileSize.NumericValue - new Vector2(0.1f));
+            }
+            geo.Color = Color.Red;
+            geo.DrawCircle(this.Position.NumericValue, r, false, 64);
 
             // debug draw tail path
 #if false

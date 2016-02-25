@@ -97,6 +97,7 @@ namespace Centipede.Rendering
             GL.DepthMask(false);
             this.surfaces.Sprites.Surface.Render();
 
+            GL.Disable(EnableCap.CullFace);
             GL.Disable(EnableCap.DepthTest);
             this.surfaces.PrimitivesOverlay.Render();
 

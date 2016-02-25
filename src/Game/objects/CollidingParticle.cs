@@ -5,9 +5,11 @@ using Centipede.Rendering;
 
 namespace Centipede.Game
 {
-    class CollidingParticle : GameObject
+    class CollidingParticle : GameObject, IPositionable
     {
         private Data data;
+
+        public Position2 Position { get { return this.data.Position; } }
 
         public CollidingParticle(GameState game,
             Position2 position, Velocity2 velocity,
@@ -97,6 +99,5 @@ namespace Centipede.Game
                 sprite.Draw(this.position.NumericValue.WithZ(this.z.NumericValue), 0, size);
             }
         }
-
     }
 }
