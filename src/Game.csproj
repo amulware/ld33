@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions.cs" />
+    <Compile Include="Game\events\GameEvent.cs" />
     <Compile Include="Game\Generation\Block.cs" />
     <Compile Include="Game\Generation\Street.cs" />
     <Compile Include="Game\Generation\StreetGenerator.cs" />
