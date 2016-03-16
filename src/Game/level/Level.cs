@@ -20,7 +20,7 @@ namespace Centipede.Game
         private readonly float offsetX;
         private readonly float offsetY;
 
-        public Difference2 TileSize { get { return new Difference2(gridSize, gridSize); } }
+        public Difference2 TileSize => new Difference2(gridSize, gridSize);
 
         public Level(GameState game, float width, float height)
         {

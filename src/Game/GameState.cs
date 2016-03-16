@@ -13,14 +13,11 @@ namespace Centipede.Game
         private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
         private readonly Dictionary<Type, object> lists = new Dictionary<Type, object>();
 
-        private readonly Level level;
+        public Instant Time { get; private set; } = Instant.Zero;
 
-        private Instant time = Instant.Zero;
+        public Level Level { get; }
 
-        public Instant Time { get { return this.time; } }
-
-        public Level Level { get { return this.level; } }
-        public Acceleration Gravity { get { return new Acceleration(-10); } }
+        public Acceleration Gravity => new Acceleration(-10);
 
 
         public GameState()
@@ -30,7 +27,7 @@ namespace Centipede.Game
 
             new StreetGenerator().Generate(this, width, height);
 
-            this.level = new Level(this, width, height);
+            this.Level = new Level(this, width, height);
             
             var pede = new Centipede(this);
             
@@ -69,7 +66,7 @@ namespace Centipede.Game
         {
             var elapsedTime = new TimeSpan(args.ElapsedTimeInS);
 
-            this.time += elapsedTime;
+            this.Time += elapsedTime;
 
 
             foreach (var gameObject in this.gameObjects)

@@ -6,8 +6,6 @@ namespace Centipede.Game.CentipedeParts
 {
     class Centipart : IProjectileCollider
     {
-        protected Position2 position;
-
         private readonly ProjectileColliderTileManager projectileCollider;
 
         public Centipart(GameState game)
@@ -15,12 +13,13 @@ namespace Centipede.Game.CentipedeParts
             this.projectileCollider = new ProjectileColliderTileManager(game, this);
         }
 
-        public Position2 Position { get { return this.position; } }
-        Unit IProjectileCollider.Radius { get { return 0.9.U(); } }
+        public Position2 Position { get; protected set; }
+
+        Unit IProjectileCollider.Radius => 0.9.U();
 
         public void SetPosition(Position2 position)
         {
-            this.position = position;
+            this.Position = position;
             this.update();
         }
 
@@ -39,8 +38,7 @@ namespace Centipede.Game.CentipedeParts
             var geo = GeometryManager.Instance.Primitives;
 
             geo.Color = Color.IndianRed;
-            geo.DrawCircle(this.position.NumericValue, 0.9f);
-
+            geo.DrawCircle(this.Position.NumericValue, 0.9f);
         }
 
     }

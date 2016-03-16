@@ -37,7 +37,7 @@ namespace Centipede.Game.Generation
             }
         }
 
-        public IReadOnlyList<Intersection> Intersections { get { return this.intersections; } }
+        public IReadOnlyList<Intersection> Intersections => this.intersections;
 
         public int AddIntersection(Intersection intersection)
         {

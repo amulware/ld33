@@ -8,16 +8,12 @@ namespace Centipede.Game
 {
     class Street : GameObject
     {
-        private readonly Intersection node1;
-        private readonly Intersection node2;
-        private readonly Unit width;
-
         public Street(GameState game, Intersection node1, Intersection node2, Unit width)
             : base(game)
         {
-            this.node1 = node1;
-            this.node2 = node2;
-            this.width = width;
+            this.Node1 = node1;
+            this.Node2 = node2;
+            this.Width = width;
 
             node1.AddStreet(this);
             node2.AddStreet(this);
@@ -25,9 +21,9 @@ namespace Centipede.Game
             this.listAs<Street>();
         }
 
-        public Intersection Node1 { get { return this.node1; } }
-        public Intersection Node2 { get { return this.node2; } }
-        public Unit Width { get { return this.width; } }
+        public Intersection Node1 { get; }
+        public Intersection Node2 { get; }
+        public Unit Width { get; }
 
         public override void Update(TimeSpan elapsedTime)
         {
@@ -39,17 +35,17 @@ namespace Centipede.Game
             var geo = GeometryManager.Instance.Primitives;
 
             geo.Color = Color.DarkGray;
-            geo.LineWidth = this.width.NumericValue - 1;
-            geo.DrawLine(this.node1.Position.NumericValue, this.node2.Position.NumericValue);
+            geo.LineWidth = this.Width.NumericValue - 1;
+            geo.DrawLine(this.Node1.Position.NumericValue, this.Node2.Position.NumericValue);
         }
 
         public Intersection OtherNode(Intersection node)
         {
 #if DEBUG
-            if(node != this.node1 && node != this.node2)
+            if(node != this.Node1 && node != this.Node2)
                 throw new Exception("Given node is invalid");
 #endif
-            return node == this.node1 ? this.node2 : this.node1;
+            return node == this.Node1 ? this.Node2 : this.Node1;
         }
     }
 }

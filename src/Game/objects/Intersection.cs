@@ -5,9 +5,7 @@ namespace Centipede.Game
 {
     sealed class Intersection
     {
-        private readonly Position2 position;
         private readonly List<Street> streets = new List<Street>();
-        private readonly IReadOnlyList<Street> streetsAsReadOnly;
 
         public Intersection(float x, float y)
             : this(new Position2(x, y)) { }
@@ -16,12 +14,12 @@ namespace Centipede.Game
 
         public Intersection(Position2 position)
         {
-            this.position = position;
-            this.streetsAsReadOnly = this.streets.AsReadOnly();
+            this.Position = position;
+            this.Streets = this.streets.AsReadOnly();
         }
 
-        public Position2 Position { get { return this.position; } }
-        public IReadOnlyList<Street> Streets { get { return this.streetsAsReadOnly; } }
+        public Position2 Position { get; }
+        public IReadOnlyList<Street> Streets { get; }
 
         public void AddStreet(Street street)
         {

@@ -6,16 +6,16 @@ namespace Centipede.Rendering
 {
     sealed class SurfaceManager : Singleton<SurfaceManager>
     {
-        public Matrix4Uniform ProjectionMatrix { get; private set; }
-        public Matrix4Uniform ModelviewMatrix { get; private set; }
+        public Matrix4Uniform ProjectionMatrix { get; }
+        public Matrix4Uniform ModelviewMatrix { get; }
 
-        public IndexedSurface<PrimitiveVertexData> Primitives { get; private set; }
-        public IndexedSurface<PrimitiveVertexData> PrimitivesOverlay { get; private set; }
-        public IndexedSurface<UVColorVertexData> Text { get; private set; }
+        public IndexedSurface<PrimitiveVertexData> Primitives { get; }
+        public IndexedSurface<PrimitiveVertexData> PrimitivesOverlay { get; }
+        public IndexedSurface<UVColorVertexData> Text { get; }
 
-        public IndexedSurface<BuildingVertex> Buildings { get; private set; }
+        public IndexedSurface<BuildingVertex> Buildings { get; }
 
-        public SpriteSet<UVColorVertexData> Sprites { get; private set; } 
+        public SpriteSet<UVColorVertexData> Sprites { get; } 
 
         public SurfaceManager(ShaderManager shaderMan)
         {

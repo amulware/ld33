@@ -11,12 +11,11 @@ namespace Centipede.Game.CentipedeParts
     {
         private readonly GameState game;
         private AngularVelocity turnSpeed;
-        private Direction2 rotation;
         private Speed speed;
 
         private Unit distanceTraveled;
 
-        public Direction2 Direction { get { return this.rotation; } }
+        public Direction2 Direction { get; private set; }
 
         public CentiHead(GameState game)
             : base(game)
@@ -24,7 +23,7 @@ namespace Centipede.Game.CentipedeParts
             this.game = game;
         }
 
-        public void Update(Instant time, TimeSpan elapsedTime, ControlState controlState)
+        public void Update(TimeSpan elapsedTime, ControlState controlState)
         {
             var leftRight = this.helpSteer(controlState).Clamped(-1, 1);
 
@@ -52,8 +51,8 @@ namespace Centipede.Game.CentipedeParts
 
         private float modifySteering(Angle rayAngle, Unit rayLength, Vector2 vVector)
         {
-            var ray = new Ray(this.position, (this.Direction + rayAngle) * rayLength)
-                .Shoot(this.game, true, false);
+            var ray = new Ray(this.Position, (this.Direction + rayAngle) * rayLength)
+                .Shoot(this.game);
 
             if (ray.HasValue)
             {
@@ -79,9 +78,9 @@ namespace Centipede.Game.CentipedeParts
             this.turnSpeed += AngularAcceleration.FromRadians(leftRight * 5) * elapsedTime;
             this.turnSpeed *= Mathf.Pow(1e-7f, t);
 
-            this.rotation += this.turnSpeed * (elapsedTime * this.speed.NumericValue);
+            this.Direction += this.turnSpeed * (elapsedTime * this.speed.NumericValue);
 
-            this.position += this.rotation * this.speed * elapsedTime;
+            this.Position += this.Direction * this.speed * elapsedTime;
 
             this.distanceTraveled += this.speed * elapsedTime;
         }
@@ -91,10 +90,10 @@ namespace Centipede.Game.CentipedeParts
             var geo = GeometryManager.Instance.Primitives;
 
             geo.Color = Color.IndianRed.WithAlpha(0.5f);
-            geo.DrawCircle(this.position.NumericValue, 1);
+            geo.DrawCircle(this.Position.NumericValue, 1);
 
             geo.LineWidth = 0.1f;
-            geo.DrawLine(this.position.NumericValue, (this.position + this.rotation * 2.U()).NumericValue);
+            geo.DrawLine(this.Position.NumericValue, (this.Position + this.Direction * 2.U()).NumericValue);
 
         }
 

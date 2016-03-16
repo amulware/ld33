@@ -12,11 +12,10 @@ namespace Centipede.Game
     {
         private readonly Sprite2DGeometry sprite;
 
-        private Position2 position;
         private Street currentStreet;
         private Intersection goalIntersection;
         private Position2 goalPoint;
-        private GameEventListenerTileManager eventListenerTileManager;
+        private readonly GameEventListenerTileManager eventListenerTileManager;
 
         public Civilian(GameState game)
             : base(game)
@@ -29,14 +28,14 @@ namespace Centipede.Game
             this.eventListenerTileManager = new GameEventListenerTileManager(game, this);
         }
 
-        public Position2 Position { get { return this.position; } }
+        public Position2 Position { get; private set; }
 
         private void initializePosition()
         {
             this.currentStreet = this.game.GetList<Street>().RandomElement();
             var streetVector = (this.currentStreet.Node1.Position - this.currentStreet.Node2.Position)
                 .NumericValue.PerpendicularLeft.Normalized();
-            this.position = this.currentStreet.Node1.Position
+            this.Position = this.currentStreet.Node1.Position
                 .LerpTo(this.currentStreet.Node2.Position, StaticRandom.Float())
                             + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
             this.goalIntersection = StaticRandom.Bool() ? this.currentStreet.Node1 : this.currentStreet.Node2;
@@ -46,12 +45,12 @@ namespace Centipede.Game
         {
             var maxMoveThisFrame = new Speed(2) * elapsedTime;
 
-            var differenceToGoal = this.goalPoint - this.position;
+            var differenceToGoal = this.goalPoint - this.Position;
             var distanceToGoal = differenceToGoal.Length;
 
             if (distanceToGoal < maxMoveThisFrame)
             {
-                this.position = this.goalPoint;
+                this.Position = this.goalPoint;
                 if (this.goalIntersection.Streets.Count > 1)
                 {
                     var oldStreet = this.currentStreet;
@@ -65,7 +64,7 @@ namespace Centipede.Game
             }
             else
             {
-                this.position += differenceToGoal / distanceToGoal * maxMoveThisFrame;
+                this.Position += differenceToGoal / distanceToGoal * maxMoveThisFrame;
             }
 
             this.eventListenerTileManager.Update();
@@ -86,7 +85,7 @@ namespace Centipede.Game
 
         public override void Draw()
         {
-            this.sprite.DrawSprite(this.position.NumericValue, 0, 1);
+            this.sprite.DrawSprite(this.Position.NumericValue, 0, 1);
 
             //var geo = GeometryManager.Instance.Primitives;
             //geo.Color = Color.Green;

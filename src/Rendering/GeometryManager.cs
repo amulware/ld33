@@ -6,11 +6,11 @@ namespace Centipede.Rendering
 {
     sealed class GeometryManager : Singleton<GeometryManager>
     {
-        private SpriteSet<UVColorVertexData> sprites;
-        public PrimitiveGeometry Primitives { get; private set; }
-        public PrimitiveGeometry PrimitivesOverlay { get; private set; }
-        public FontGeometry Text { get; private set; }
-        public BuildingGeometry Buildings { get; private set; }
+        private readonly SpriteSet<UVColorVertexData> sprites;
+        public PrimitiveGeometry Primitives { get; }
+        public PrimitiveGeometry PrimitivesOverlay { get; }
+        public FontGeometry Text { get; }
+        public BuildingGeometry Buildings { get; }
 
         public GeometryManager(SurfaceManager surfaces)
         {

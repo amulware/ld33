@@ -9,22 +9,20 @@ namespace Centipede.Game
 {
     sealed class Building : GameObject
     {
-        private Position2 topLeft;
-        private Difference2 size;
         private Unit height = StaticRandom.Float(15, 30).U();
 
         private float interiorAlpha;
 
         public bool RevealInside { get; set; }
 
-        public Position2 TopLeft { get { return this.topLeft; } }
-        public Difference2 Size { get { return this.size; } }
+        public Position2 TopLeft { get; }
+        public Difference2 Size { get; }
 
         public Building(GameState game, Position2 topLeft, Difference2 size)
             : base(game)
         {
-            this.topLeft = topLeft;
-            this.size = size;
+            this.TopLeft = topLeft;
+            this.Size = size;
 
             this.listAs<Building>();
         }
@@ -50,8 +48,8 @@ namespace Centipede.Game
             var start = ray.Start.NumericValue;
             var direction = ray.Direction.NumericValue;
 
-            var topLeft = this.topLeft.NumericValue;
-            var bottomRight = (this.topLeft + this.size).NumericValue;
+            var topLeft = this.TopLeft.NumericValue;
+            var bottomRight = (this.TopLeft + this.Size).NumericValue;
 
             HitResult? result = null;
 
@@ -130,17 +128,17 @@ namespace Centipede.Game
 
         public bool IsInside(Position2 point)
         {
-            return point.X >= this.topLeft.X
-                && point.Y >= this.topLeft.Y
-                && point.X < this.topLeft.X + this.size.X
-                && point.Y < this.topLeft.Y + this.size.Y;
+            return point.X >= this.TopLeft.X
+                && point.Y >= this.TopLeft.Y
+                && point.X < this.TopLeft.X + this.Size.X
+                && point.Y < this.TopLeft.Y + this.Size.Y;
         }
 
         public override void Draw()
         {
             var geo = GeometryManager.Instance.Buildings;
 
-            geo.DrawBuilding(this.topLeft.NumericValue, this.size.NumericValue, this.height.NumericValue, this.interiorAlpha);
+            geo.DrawBuilding(this.TopLeft.NumericValue, this.Size.NumericValue, this.height.NumericValue, this.interiorAlpha);
 
         }
     }

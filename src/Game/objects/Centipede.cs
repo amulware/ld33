@@ -1,11 +1,6 @@
 ﻿using System.Collections.Generic;
-using amulware.Graphics;
-using Bearded.Utilities;
-using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Game.CentipedeParts;
-using Centipede.Rendering;
-using OpenTK;
 
 namespace Centipede.Game
 {
@@ -33,12 +28,12 @@ namespace Centipede.Game
             }
         }
 
-        public Position2 Position { get { return this.head.Position; } }
+        public Position2 Position => this.head.Position;
 
         public override void Update(TimeSpan elapsedTime)
         {
             var controlState = this.controller.Control();
-            this.head.Update(this.game.Time, elapsedTime, controlState);
+            this.head.Update(elapsedTime, controlState);
 
             var currentPathPart = new CentiPathPart(this.head.Position, this.lastSaved);
 

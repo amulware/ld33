@@ -6,18 +6,15 @@ namespace Centipede.Game
 {
     struct Ray
     {
-        private readonly Position2 start;
-        private readonly Difference2 direction;
-
         public Ray(Position2 start, Difference2 direction)
         {
-            this.start = start;
-            this.direction = direction;
+            this.Start = start;
+            this.Direction = direction;
         }
 
-        public Position2 Start { get { return this.start; } }
-        public Difference2 Direction { get { return this.direction; } }
-
+        public Position2 Start { get; }
+        public Difference2 Direction { get; }
+        
         public HitResult? Shoot(GameState game, bool hitBuildings = true, bool hitProjectileColliders = false)
         {
             HitResult? result = null;

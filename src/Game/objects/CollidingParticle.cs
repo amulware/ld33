@@ -9,7 +9,7 @@ namespace Centipede.Game
     {
         private Data data;
 
-        public Position2 Position { get { return this.data.Position; } }
+        public Position2 Position => this.data.Position;
 
         public CollidingParticle(GameState game,
             Position2 position, Velocity2 velocity,

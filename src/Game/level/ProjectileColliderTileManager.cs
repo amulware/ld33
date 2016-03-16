@@ -10,7 +10,7 @@ namespace Centipede.Game
         private class Tuple
         {
             public Tile<TileInfo> Tile { get; set; }
-            public LinkedListNode<IProjectileCollider> Node { get; private set; }
+            public LinkedListNode<IProjectileCollider> Node { get; }
 
             public Tuple(IProjectileCollider collider)
             {

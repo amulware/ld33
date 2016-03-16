@@ -27,10 +27,10 @@ namespace Centipede.Game.Generation
 
         private readonly Street[] streets;
 
-        public Unit East { get; private set; }
-        public Unit West { get; private set; }
-        public Unit South { get; private set; }
-        public Unit North { get; private set; }
+        public Unit East { get; }
+        public Unit West { get; }
+        public Unit South { get; }
+        public Unit North { get; }
 
         public Unit Height { get; private set; }
         public Unit Width { get; private set; }
@@ -59,13 +59,10 @@ namespace Centipede.Game.Generation
             this.Height = this.North - this.South;
         }
 
-        public Street this[Side side]
-        {
-            get { return this.streets[side]; }
-        }
+        public Street this[Side side] => this.streets[side];
 
         public List<Block> Children { get; private set; }
-        public IReadOnlyList<Street> Streets { get { return this.streets; } }
+        public IReadOnlyList<Street> Streets => this.streets;
 
         public static Block MakeRoot(float width, float height)
         {

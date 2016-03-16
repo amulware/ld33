@@ -4,33 +4,29 @@ namespace Centipede.Game
 {
     struct TileRectangle : IEquatable<TileRectangle>
     {
-        private readonly int x0;
-        private readonly int y0;
-        private readonly int x1;
-        private readonly int y1;
-
         public TileRectangle(int x0, int y0, int x1, int y1)
         {
-            this.x0 = x0;
-            this.y0 = y0;
-            this.x1 = x1;
-            this.y1 = y1;
+            this.X0 = x0;
+            this.Y0 = y0;
+            this.X1 = x1;
+            this.Y1 = y1;
         }
 
-        public int X0 { get { return this.x0; } }
-        public int Y0 { get { return this.y0; } }
-        public int X1 { get { return this.x1; } }
-        public int Y1 { get { return this.y1; } }
-        public int W { get { return this.x1 - this.x0 + 1; } }
-        public int H { get { return this.y1 - this.y0 + 1; } }
+        public int X0 { get; }
+        public int Y0 { get; }
+        public int X1 { get; }
+        public int Y1 { get; }
 
-        public int Tiles { get { return this.W * this.H; } }
+        public int W => this.X1 - this.X0 + 1;
+        public int H => this.Y1 - this.Y0 + 1;
 
-        public static TileRectangle Dummy { get { return new TileRectangle(int.MinValue, int.MinValue, int.MinValue, int.MinValue); } }
+        public int Tiles => this.W * this.H;
+
+        public static TileRectangle Dummy => new TileRectangle(int.MinValue, int.MinValue, int.MinValue, int.MinValue);
 
         public bool Equals(TileRectangle other)
         {
-            return this.x0 == other.x0 && this.y0 == other.y0 && this.x1 == other.x1 && this.y1 == other.y1;
+            return this.X0 == other.X0 && this.Y0 == other.Y0 && this.X1 == other.X1 && this.Y1 == other.Y1;
         }
 
         public override bool Equals(object obj)
@@ -43,10 +39,10 @@ namespace Centipede.Game
         {
             unchecked
             {
-                var hashCode = this.x0;
-                hashCode = (hashCode * 397) ^ this.y0;
-                hashCode = (hashCode * 397) ^ this.x1;
-                hashCode = (hashCode * 397) ^ this.y1;
+                var hashCode = this.X0;
+                hashCode = (hashCode * 397) ^ this.Y0;
+                hashCode = (hashCode * 397) ^ this.X1;
+                hashCode = (hashCode * 397) ^ this.Y1;
                 return hashCode;
             }
         }
