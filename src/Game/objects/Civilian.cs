@@ -78,9 +78,12 @@ namespace Centipede.Game
                              + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
         }
 
-        public bool TryPerceive(IGameEvent @event)
+        public bool TryPerceive(IGameEvent e)
         {
-            throw new System.NotImplementedException();
+            if (!e.CanBePerceivedAt(this.Position))
+                return false;
+
+            return true;
         }
 
         public override void Draw()

@@ -1,4 +1,5 @@
-﻿using Bearded.Utilities.SpaceTime;
+﻿using Bearded.Utilities.Math;
+using Bearded.Utilities.SpaceTime;
 
 namespace Centipede.Game
 {
@@ -8,7 +9,11 @@ namespace Centipede.Game
         Unit VisibleRadius { get; }
         Unit AudibleRadius { get; }
         Unit MaxRadius { get; }
+        int PerceivedBy { get; }
 
         void Send(GameState game);
+
+        bool CanBePerceivedAt(Position2 position);
+        bool CanBePerceivedAt(Position2 position, Direction2 visionDirection, Angle visionHalfAngle);
     }
 }
