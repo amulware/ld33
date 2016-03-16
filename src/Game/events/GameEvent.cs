@@ -53,7 +53,7 @@ namespace Centipede.Game
         public bool CanBePerceivedAt(Position2 position, Direction2 visionDirection, Angle visionHalfAngle)
         {
             var difference = this.Position - position;
-            return this.canBePerceivedFrom(difference) && this.isInCone(difference, visionDirection, visionHalfAngle);
+            return this.canBePerceivedFrom(difference) && isInCone(difference, visionDirection, visionHalfAngle);
         }
 
         private bool canBePerceivedFrom(Difference2 difference)
@@ -61,7 +61,7 @@ namespace Centipede.Game
             return difference.LengthSquared < this.maxRadiusSquared;
         }
 
-        private bool isInCone(Difference2 difference, Direction2 visionDirection, Angle visionHalfAngle)
+        private static bool isInCone(Difference2 difference, Direction2 visionDirection, Angle visionHalfAngle)
         {
             return (difference.Direction - visionDirection).Abs() < visionHalfAngle;
         }
