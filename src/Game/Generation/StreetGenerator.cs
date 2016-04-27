@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bearded.Utilities;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
@@ -144,7 +145,7 @@ namespace Centipede.Game.Generation
 
             var sw = d.NumericValue.Sqrted() * 0.3f;
 
-            streetWidth = ((float)(int)sw).Clamped(1.5f, 5).U();
+            streetWidth = Math.Floor(sw).Clamped(1.5f, 5).U();
 
             var ret = p0 + d * StaticRandom.Float(0.3f, 0.7f);
 
@@ -200,7 +201,45 @@ namespace Centipede.Game.Generation
                     }
                 }
             }
+
+            this.mergeIntersections(game);
         }
+
+        private void mergeIntersections(GameState game)
+        {
+            var intersectionsVisited = new HashSet<Intersection>();
+            
+            foreach (var street in game.GetList<Game.Street>())
+            {
+                var sawNode1 = intersectionsVisited.Add(street.Node1);
+                var sawNode2 = intersectionsVisited.Add(street.Node2);
+
+                var rect1 = street.Node1.GetRectangle();
+                var rect2 = street.Node2.GetRectangle();
+
+                var intersect = rect1.Intersects(rect2);
+
+                if (intersect)
+                {
+                    street.Delete();
+
+                    new MergedIntersection(game, street.Node1, street.Node2);
+                }
+                else
+                {
+                    if (!sawNode1)
+                    {
+                        new MergedIntersection(game, street.Node1);
+                    }
+                    if (!sawNode2)
+                    {
+                        new MergedIntersection(game, street.Node2);
+                    }
+                }
+
+            }
+        }
+
 
         private Block makeRootSquare(float width, float height)
         {

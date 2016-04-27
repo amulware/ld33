@@ -34,8 +34,8 @@ namespace Centipede.Game
         {
             var geo = GeometryManager.Instance.Primitives;
 
-            geo.Color = Color.DarkGray;
-            geo.LineWidth = this.Width.NumericValue - 1;
+            geo.Color = Color.DarkGray * 0.5f;
+            geo.LineWidth = this.Width.NumericValue;// - 1;
             geo.DrawLine(this.Node1.Position.NumericValue, this.Node2.Position.NumericValue);
         }
 
@@ -46,6 +46,12 @@ namespace Centipede.Game
                 throw new Exception("Given node is invalid");
 #endif
             return node == this.Node1 ? this.Node2 : this.Node1;
+        }
+
+        protected override void onDelete()
+        {
+            this.Node1.RemoveStreet(this);
+            this.Node2.RemoveStreet(this);
         }
     }
 }

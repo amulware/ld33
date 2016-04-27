@@ -89,6 +89,7 @@
     <Compile Include="Rendering\SurfaceManager.cs" />
     <Compile Include="Rendering\vertices\BuildingVertex.cs" />
     <Compile Include="Settings.cs" />
+    <Compile Include="Game\objects\MergedIntersection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

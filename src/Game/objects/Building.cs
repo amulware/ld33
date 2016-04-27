@@ -138,7 +138,7 @@ namespace Centipede.Game
         {
             var geo = GeometryManager.Instance.Buildings;
 
-            geo.DrawBuilding(this.TopLeft.NumericValue, this.Size.NumericValue, this.height.NumericValue, this.interiorAlpha);
+            //geo.DrawBuilding(this.TopLeft.NumericValue, this.Size.NumericValue, this.height.NumericValue, this.interiorAlpha);
 
         }
     }
