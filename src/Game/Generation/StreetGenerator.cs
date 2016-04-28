@@ -15,6 +15,10 @@ namespace Centipede.Game.Generation
             this.fillBlock(root);
 
             this.fillGame(root, game);
+
+            this.mergeIntersections(game);
+
+            new NavMeshGenerator(game).Generate();
         }
 
         private static readonly Unit minBlockSize = 20.U();
@@ -202,18 +206,16 @@ namespace Centipede.Game.Generation
                 }
             }
 
-            this.mergeIntersections(game);
         }
 
         private void mergeIntersections(GameState game)
         {
-            var intersectionsVisited = new HashSet<Intersection>();
-            
-            foreach (var street in game.GetList<Game.Street>())
-            {
-                var sawNode1 = intersectionsVisited.Add(street.Node1);
-                var sawNode2 = intersectionsVisited.Add(street.Node2);
+            var intersectionsMerged = new HashSet<Intersection>();
 
+            var streets = game.GetList<Game.Street>();
+            
+            foreach (var street in streets)
+            {
                 var rect1 = street.Node1.GetRectangle();
                 var rect2 = street.Node2.GetRectangle();
 
@@ -221,22 +223,33 @@ namespace Centipede.Game.Generation
 
                 if (intersect)
                 {
+                    var mergedNode1 = intersectionsMerged.Add(street.Node1);
+                    var mergedNode2 = intersectionsMerged.Add(street.Node2);
+
+                    if (!mergedNode1 || !mergedNode2)
+                    {
+                        throw new Exception("Tried to merge already merged intersection.");
+                    }
+
                     street.Delete();
 
                     new MergedIntersection(game, street.Node1, street.Node2);
                 }
-                else
-                {
-                    if (!sawNode1)
-                    {
-                        new MergedIntersection(game, street.Node1);
-                    }
-                    if (!sawNode2)
-                    {
-                        new MergedIntersection(game, street.Node2);
-                    }
-                }
+            }
 
+            foreach (var street in streets)
+            {
+                var mergedNode1 = intersectionsMerged.Add(street.Node1);
+                var mergedNode2 = intersectionsMerged.Add(street.Node2);
+
+                if (mergedNode1)
+                {
+                    new MergedIntersection(game, street.Node1);
+                }
+                if (mergedNode2)
+                {
+                    new MergedIntersection(game, street.Node2);
+                }
             }
         }
 

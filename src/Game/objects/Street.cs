@@ -34,7 +34,7 @@ namespace Centipede.Game
         {
             var geo = GeometryManager.Instance.Primitives;
 
-            geo.Color = Color.DarkGray * 0.5f;
+            geo.Color = Color.DarkGray;
             geo.LineWidth = this.Width.NumericValue;// - 1;
             geo.DrawLine(this.Node1.Position.NumericValue, this.Node2.Position.NumericValue);
         }

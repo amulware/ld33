@@ -33,7 +33,7 @@ namespace Centipede.Game
             
             new PlayerView(this, pede);
 
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 new Civilian(this);
             }

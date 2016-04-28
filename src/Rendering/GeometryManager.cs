@@ -11,6 +11,8 @@ namespace Centipede.Rendering
         public PrimitiveGeometry PrimitivesOverlay { get; }
         public FontGeometry Text { get; }
         public BuildingGeometry Buildings { get; }
+        public PrimitiveGeometry NavMesh { get; }
+
 
         public GeometryManager(SurfaceManager surfaces)
         {
@@ -23,6 +25,8 @@ namespace Centipede.Rendering
             this.Buildings = new BuildingGeometry(surfaces.Buildings);
 
             this.sprites = surfaces.Sprites;
+
+            this.NavMesh = new PrimitiveGeometry(surfaces.NavMesh);
         }
 
         public Sprite GetSprite(string name)

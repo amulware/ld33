@@ -1,6 +1,7 @@
 ﻿using amulware.Graphics;
 using amulware.Graphics.ShaderManagement;
 using Bearded.Utilities;
+using OpenTK.Graphics.OpenGL;
 
 namespace Centipede.Rendering
 {
@@ -16,6 +17,9 @@ namespace Centipede.Rendering
         public IndexedSurface<BuildingVertex> Buildings { get; }
 
         public SpriteSet<UVColorVertexData> Sprites { get; } 
+
+        public IndexedSurface<PrimitiveVertexData> NavMesh { get; }
+
 
         public SurfaceManager(ShaderManager shaderMan)
         {
@@ -50,6 +54,13 @@ namespace Centipede.Rendering
 
             this.Sprites = SpriteSet<UVColorVertexData>.FromJsonFile("data/sprites/particles.json",
                 s => new Sprite2DGeometry(s), shaderMan["uvcolor"], sharedSettings, f => new Texture(f, true), true);
+
+            this.NavMesh = new IndexedSurface<PrimitiveVertexData>();
+            this.NavMesh.AddSettings(
+                this.ProjectionMatrix, this.ModelviewMatrix,
+                new PolygonModeSetting(PolygonMode.Line)
+            );
+            shaderMan["primitives"].UseOnSurface(this.NavMesh);
         }
 
     }

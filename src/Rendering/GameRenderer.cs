@@ -101,6 +101,8 @@ namespace Centipede.Rendering
             GL.Disable(EnableCap.DepthTest);
             this.surfaces.PrimitivesOverlay.Render();
 
+            this.surfaces.NavMesh.Render();
+
         }
     }
 }
