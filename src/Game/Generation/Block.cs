@@ -1,10 +1,33 @@
 using System.Collections.Generic;
+using System.Linq;
 using Bearded.Utilities.SpaceTime;
 
 namespace Centipede.Game.Generation
 {
     class Block
     {
+        public sealed class Corner
+        {
+            public static readonly Corner SouthEast = new Corner(Side.South, Side.East);
+            public static readonly Corner SouthWest = new Corner(Side.South, Side.West);
+            public static readonly Corner NorthEast = new Corner(Side.North, Side.East);
+            public static readonly Corner NorthWest = new Corner(Side.North, Side.West);
+
+            public Side Y { get; }
+            public Side X { get; }
+
+            private Corner(Side y, Side x)
+            {
+                this.Y = y;
+                this.X = x;
+            }
+
+            public override string ToString()
+            {
+                return Y.ToString() + X;
+            }
+        }
+
         public sealed class Side
         {
             public static readonly Side East = new Side(0);
@@ -12,16 +35,44 @@ namespace Centipede.Game.Generation
             public static readonly Side West = new Side(2);
             public static readonly Side North = new Side(3);
 
+            private static readonly Side[] opposites =
+            {
+                West, North, East, South
+            };
+
             private readonly int value;
 
             private Side(int value)
             {
                 this.value = value;
             }
+
+            public Side Opposite => opposites[this.value];
             
             public static implicit operator int(Side side)
             {
                 return side.value;
+            }
+
+            public static explicit operator Side(int side)
+            {
+                return opposites.First(o => o.value == side);
+            }
+
+            public override string ToString()
+            {
+                switch (this.value)
+                {
+                    case 0:
+                        return "East";
+                    case 1:
+                        return "South";
+                    case 2:
+                        return "West";
+                    case 3:
+                        return "North";
+                }
+                return "invalid side";
             }
         }
 

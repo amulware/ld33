@@ -1,10 +1,9 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using amulware.Graphics;
 using Bearded.Utilities.Math.Geometry;
-using Centipede.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
@@ -17,18 +16,11 @@ namespace Centipede.Game
             : base(game)
         {
             this.intersections = intersections.ToList();
+            this.Intersections = this.intersections.AsReadOnly();
 
             this.listAs<MergedIntersection>();
         }
 
-        public override void Draw()
-        {
-            var geo = GeometryManager.Instance.Primitives;
-
-            geo.Color = Color.Red * 0.5f;
-
-
-        }
 
         public Rectangle GetRectangle()
         {
@@ -47,9 +39,14 @@ namespace Centipede.Game
             }
             return new Rectangle(x0, y0, x1 - x0, y1 - y0);
         }
-                              
+
+        public IEnumerable<Street> Streets => this.intersections.SelectMany(i => i.Streets);
+        public ReadOnlyCollection<Intersection> Intersections { get; }
 
         public override void Update(TimeSpan elapsedTime)
+        {
+        }
+        public override void Draw()
         {
         }
     }

@@ -7,27 +7,27 @@ namespace Centipede.Game
 {
     public class NavQuad
     {
-        private readonly Position2 p0;
-        private readonly Position2 p1;
-        private readonly Position2 p2;
-        private readonly Position2 p3;
+        public Position2 SW { get; }
+        public Position2 SE { get; }
+        public Position2 NW { get; }
+        public Position2 NE { get; }
 
-        public NavQuad(Position2 p0, Position2 p1, Position2 p2, Position2 p3)
+        public NavQuad(Position2 SW, Position2 SE, Position2 NW, Position2 NE)
         {
-            this.p0 = p0;
-            this.p1 = p1;
-            this.p2 = p2;
-            this.p3 = p3;
+            this.SW = SW;
+            this.SE = SE;
+            this.NW = NW;
+            this.NE = NE;
         }
 
         public void Draw(IndexedSurface<PrimitiveVertexData> surface)
         {
             var argb = Color.Yellow;
             surface.AddQuad(
-                new PrimitiveVertexData(this.p0.NumericValue.WithZ(), argb),
-                new PrimitiveVertexData(this.p1.NumericValue.WithZ(), argb),
-                new PrimitiveVertexData(this.p3.NumericValue.WithZ(), argb),
-                new PrimitiveVertexData(this.p2.NumericValue.WithZ(), argb)
+                new PrimitiveVertexData(this.SW.NumericValue.WithZ(), argb),
+                new PrimitiveVertexData(this.SE.NumericValue.WithZ(), argb),
+                new PrimitiveVertexData(this.NE.NumericValue.WithZ(), argb),
+                new PrimitiveVertexData(this.NW.NumericValue.WithZ(), argb)
             );
         }
     }
