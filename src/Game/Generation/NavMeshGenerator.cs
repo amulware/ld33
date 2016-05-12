@@ -50,13 +50,18 @@ namespace Centipede.Game.Generation
                         
                 }
 
+                var padding = 0.3.U();
+
                 var cornerSW = getIntersectionCorner(streets, Block.Corner.SouthWest);
                 var cornerSE = getIntersectionCorner(streets, Block.Corner.SouthEast);
                 var cornerNW = getIntersectionCorner(streets, Block.Corner.NorthWest);
                 var cornerNE = getIntersectionCorner(streets, Block.Corner.NorthEast);
 
                 var navQuad = new NavQuad(
-                    cornerSW, cornerSE, cornerNW, cornerNE
+                    cornerSW + new Difference2(padding, padding),
+                    cornerSE + new Difference2(-padding, padding),
+                    cornerNW + new Difference2(padding, -padding),
+                    cornerNE + new Difference2(-padding, -padding)
                 );
 
                 navMesh.Add(navQuad);
@@ -91,6 +96,9 @@ namespace Centipede.Game.Generation
 
                         var navQuad = new NavQuad(quad2.SE, quad1.SW, quad2.NE, quad1.NW);
 
+                        NavLink.CreatePair(navQuad, quad1, quad1.SW, quad1.NW);
+                        NavLink.CreatePair(navQuad, quad2, quad2.SE, quad2.NE);
+
                         navMesh.Add(navQuad);
                     }
                     else if (side == Block.Side.South || side == Block.Side.North)
@@ -101,6 +109,9 @@ namespace Centipede.Game.Generation
                         }
 
                         var navQuad = new NavQuad(quad1.NW, quad1.NE, quad2.SW, quad2.SE);
+
+                        NavLink.CreatePair(navQuad, quad1, quad1.NW, quad1.NE);
+                        NavLink.CreatePair(navQuad, quad2, quad2.SW, quad2.SE);
 
                         navMesh.Add(navQuad);
                     }

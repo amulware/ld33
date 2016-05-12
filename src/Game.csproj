@@ -93,6 +93,7 @@
     <Compile Include="Game\Generation\NavMeshGenerator.cs" />
     <Compile Include="Game\navigation\NavQuad.cs" />
     <Compile Include="Game\navigation\NavMesh.cs" />
+    <Compile Include="Game\navigation\NavLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
