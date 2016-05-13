@@ -12,6 +12,7 @@ namespace Centipede.Game
     {
         private readonly DeletableObjectList<GameObject> gameObjects = new DeletableObjectList<GameObject>();
         private readonly Dictionary<Type, object> lists = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> singletons = new Dictionary<Type, object>();
 
         public Instant Time { get; private set; } = Instant.Zero;
 
@@ -39,6 +40,12 @@ namespace Centipede.Game
             }
         }
 
+        public void RegisterSingleton<T>(T obj)
+            where T : class
+        {
+            this.singletons[typeof(T)] = obj;
+        }
+
         public void Add(GameObject gameObject)
         {
             this.gameObjects.Add(gameObject);
@@ -60,6 +67,14 @@ namespace Centipede.Game
             var l = new DeletableObjectList<T>();
             this.lists.Add(typeof(T), l);
             return l;
+        }
+
+        public T Get<T>()
+            where T : class
+        {
+            object obj;
+            this.singletons.TryGetValue(typeof(T), out obj);
+            return (T)obj;
         }
 
         public void Update(UpdateEventArgs args)

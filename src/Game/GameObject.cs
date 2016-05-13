@@ -17,6 +17,17 @@ namespace Centipede.Game
             game.Add(this);
         }
 
+        protected void isSingleton<T>()
+            where T : class
+        {
+            var asT = this as T;
+#if DEBUG
+            if (asT == null)
+                throw new Exception("Cannot list singleton as incompatible type");
+#endif
+            this.game.RegisterSingleton(asT);
+        }
+
         protected void listAs<T>()
             where T : class, IDeletable
         {

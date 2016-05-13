@@ -1,4 +1,5 @@
 ﻿
+using Bearded.Utilities;
 using Bearded.Utilities.SpaceTime;
 
 namespace Centipede.Game
@@ -29,6 +30,12 @@ namespace Centipede.Game
             quad1.Add(new NavLink(quad1, quad2, point0, point1));
             quad2.Add(new NavLink(quad2, quad1, point0, point1));
         }
+
+        public Position2 RandomPoint()
+        {
+            return Position2.Lerp(this.P0, this.P1, StaticRandom.Float());
+        }
+
     }
 }
 

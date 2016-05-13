@@ -1,19 +1,17 @@
 ﻿using amulware.Graphics;
-using Bearded.Utilities;
 using Bearded.Utilities.Linq;
 using Bearded.Utilities.SpaceTime;
 using Centipede.Rendering;
-using OpenTK;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
 namespace Centipede.Game
 {
-    internal class Civilian : GameObject, IGameEventListener
+    class Civilian : GameObject, IGameEventListener
     {
         private readonly Sprite2DGeometry sprite;
 
-        private Street currentStreet;
-        private Intersection goalIntersection;
+        private NavQuad currentQuad;
+        private NavLink goalLink;
         private Position2 goalPoint;
         private readonly GameEventListenerTileManager eventListenerTileManager;
 
@@ -32,13 +30,9 @@ namespace Centipede.Game
 
         private void initializePosition()
         {
-            this.currentStreet = this.game.GetList<Street>().RandomElement();
-            var streetVector = (this.currentStreet.Node1.Position - this.currentStreet.Node2.Position)
-                .NumericValue.PerpendicularLeft.Normalized();
-            this.Position = this.currentStreet.Node1.Position
-                .LerpTo(this.currentStreet.Node2.Position, StaticRandom.Float())
-                            + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
-            this.goalIntersection = StaticRandom.Bool() ? this.currentStreet.Node1 : this.currentStreet.Node2;
+            this.currentQuad = this.game.Get<NavMesh>().NavQuads.RandomElement();
+            this.Position = currentQuad.RandomPointInside();
+            this.goalLink = this.currentQuad.Links.RandomElement();
         }
 
         public override void Update(TimeSpan elapsedTime)
@@ -51,14 +45,17 @@ namespace Centipede.Game
             if (distanceToGoal < maxMoveThisFrame)
             {
                 this.Position = this.goalPoint;
-                if (this.goalIntersection.Streets.Count > 1)
+                if (this.goalLink.To.Links.Count > 1)
                 {
-                    var oldStreet = this.currentStreet;
-                    while (oldStreet == this.currentStreet)
+                    var oldQuad = this.currentQuad;
+                    this.currentQuad = this.goalLink.To;
+                    while(true)
                     {
-                        this.currentStreet = this.goalIntersection.Streets.RandomElement();
+                        this.goalLink = this.currentQuad.Links.RandomElement();
+
+                        if (oldQuad != this.goalLink.To)
+                            break;
                     }
-                    this.goalIntersection = this.currentStreet.OtherNode(this.goalIntersection);
                     this.updateGoalPoint();
                 }
             }
@@ -72,10 +69,7 @@ namespace Centipede.Game
 
         private void updateGoalPoint()
         {
-            var streetVector = (this.currentStreet.Node1.Position - this.currentStreet.Node2.Position)
-                .NumericValue.PerpendicularLeft.Normalized();
-            this.goalPoint = this.goalIntersection.Position
-                             + streetVector * (this.currentStreet.Width * StaticRandom.Float(-1, 1));
+            this.goalPoint = this.goalLink.RandomPoint();
         }
 
         public bool TryPerceive(IGameEvent e)
@@ -90,10 +84,10 @@ namespace Centipede.Game
         {
             this.sprite.DrawSprite(this.Position.NumericValue, 0, 1);
 
-            //var geo = GeometryManager.Instance.Primitives;
-            //geo.Color = Color.Green;
-            //geo.DrawRectangle(this.goalPoint.Vector, new Vector2(0.5f, 0.5f));
-            //geo.DrawLine(this.position.Vector, this.goalPoint.Vector);
+            var geo = GeometryManager.Instance.Primitives;
+            geo.Color = Color.Green;
+            geo.DrawRectangle(this.goalPoint.NumericValue, new OpenTK.Vector2(0.5f, 0.5f));
+            geo.DrawLine(this.Position.NumericValue, this.goalPoint.NumericValue);
         }
 
     }

@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using amulware.Graphics;
+using Bearded.Utilities;
 using Bearded.Utilities.Math;
 using Bearded.Utilities.SpaceTime;
+using OpenTK;
 
 namespace Centipede.Game
 {
@@ -20,6 +22,9 @@ namespace Centipede.Game
         private readonly List<NavLink> links = new List<NavLink>();
         public ReadOnlyCollection<NavLink> Links { get; }
 
+        private readonly Difference2 uDiff;
+        private readonly Difference2 vDiff;
+
         public NavQuad(Position2 SW, Position2 SE, Position2 NW, Position2 NE)
         {
             this.SW = SW;
@@ -28,6 +33,9 @@ namespace Centipede.Game
             this.NE = NE;
 
             this.Center = new Position2((SW.NumericValue + SE.NumericValue + NW.NumericValue + NE.NumericValue) / 4);
+
+            this.uDiff = SE - SW;
+            this.vDiff = NW - SW;
 
             this.Links = this.links.AsReadOnly();
         }
@@ -39,6 +47,35 @@ namespace Centipede.Game
                 throw new Exception("Nav link must originate from this quad.");
 #endif
             this.links.Add(link);
+        }
+
+        public bool IsInside(Position2 point)
+        {
+            var uv = this.pointToUV(point);
+
+            return uv.X >= 0 && uv.X <= 1 && uv.Y >= 0 && uv.Y <= 1;
+        }
+
+        public Position2 RandomPointInside()
+        {
+            var uv = new Vector2(StaticRandom.Float(), StaticRandom.Float());
+
+            return this.uvToPoint(uv);
+        }
+
+        private Vector2 pointToUV(Position2 point)
+        {
+            var diff = (point - this.SW).NumericValue;
+
+            var u = Vector2.Dot(diff, (this.SE - this.SW).NumericValue);
+            var v = Vector2.Dot(diff, (this.NW - this.SW).NumericValue);
+
+            return new Vector2(u, v);
+        }
+
+        private Position2 uvToPoint(Vector2 uv)
+        {
+            return this.SW + uv.X * this.uDiff + uv.Y * this.vDiff;
         }
 
         public void Draw(IndexedSurface<PrimitiveVertexData> surface)
