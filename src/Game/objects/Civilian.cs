@@ -84,10 +84,10 @@ namespace Centipede.Game
         {
             this.sprite.DrawSprite(this.Position.NumericValue, 0, 1);
 
-            var geo = GeometryManager.Instance.Primitives;
-            geo.Color = Color.Green;
-            geo.DrawRectangle(this.goalPoint.NumericValue, new OpenTK.Vector2(0.5f, 0.5f));
-            geo.DrawLine(this.Position.NumericValue, this.goalPoint.NumericValue);
+//            var geo = GeometryManager.Instance.Primitives;
+//            geo.Color = Color.Green;
+//            geo.DrawRectangle(this.goalPoint.NumericValue, new OpenTK.Vector2(0.5f, 0.5f));
+//            geo.DrawLine(this.Position.NumericValue, this.goalPoint.NumericValue);
         }
 
     }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using amulware.Graphics;
@@ -22,8 +21,18 @@ namespace Centipede.Game
         private readonly List<NavLink> links = new List<NavLink>();
         public ReadOnlyCollection<NavLink> Links { get; }
 
-        private readonly Difference2 uDiff;
-        private readonly Difference2 vDiff;
+        private readonly Difference2 uDiff1;
+        private readonly Difference2 vDiff1;
+        private readonly Difference2 uDiff2;
+        private readonly Difference2 vDiff2;
+
+        private Position2 uvBase1 => this.SW;
+        private Position2 uvBase2 => this.NE;
+
+        private readonly Squared<Unit> area1;
+        private readonly Squared<Unit> area2;
+
+        public Squared<Unit> Area  => this.area1 + this.area2;
 
         public NavQuad(Position2 SW, Position2 SE, Position2 NW, Position2 NE)
         {
@@ -34,10 +43,22 @@ namespace Centipede.Game
 
             this.Center = new Position2((SW.NumericValue + SE.NumericValue + NW.NumericValue + NE.NumericValue) / 4);
 
-            this.uDiff = SE - SW;
-            this.vDiff = NW - SW;
+            this.uDiff1 = SE - SW;
+            this.vDiff1 = NW - SW;
+            this.uDiff2 = NW - NE;
+            this.vDiff2 = SE - NE;
+
+            this.area1 = triangleArea(this.uDiff1, this.vDiff1);
+            this.area2 = triangleArea(this.uDiff2, this.vDiff2);
 
             this.Links = this.links.AsReadOnly();
+        }
+
+        private static Squared<Unit> triangleArea(Difference2 u, Difference2 v)
+        {
+            var a = u.NumericValue;
+            var b = v.NumericValue;
+            return Squared<Unit>.FromValue(Math.Abs(a.X * b.Y - a.Y * b.X) * 0.5f);
         }
 
         public void Add(NavLink link)
@@ -51,9 +72,14 @@ namespace Centipede.Game
 
         public bool IsInside(Position2 point)
         {
-            var uv = this.pointToUV(point);
+            var uv = this.pointToUV1(point);
 
-            return uv.X >= 0 && uv.X <= 1 && uv.Y >= 0 && uv.Y <= 1;
+            if (uv.X + uv.Y <= 1 && uv.X >= 0 && uv.Y >= 0)
+                return true;
+
+            uv = this.pointToUV2(point);
+
+            return uv.X + uv.Y <= 1 && uv.X >= 0 && uv.Y >= 0;
         }
 
         public Position2 RandomPointInside()
@@ -62,20 +88,48 @@ namespace Centipede.Game
 
             return this.uvToPoint(uv);
         }
-
-        private Vector2 pointToUV(Position2 point)
+        public Position2 RandomPointInsideUniform()
         {
-            var diff = (point - this.SW).NumericValue;
+            var uv = new Vector2(StaticRandom.Float(), StaticRandom.Float());
 
-            var u = Vector2.Dot(diff, (this.SE - this.SW).NumericValue);
-            var v = Vector2.Dot(diff, (this.NW - this.SW).NumericValue);
+            var isTriangle2 = uv.X + uv.Y > 1;
+            var needsToBeTriangle2 = StaticRandom.Float() < this.area2 / this.Area;
+
+            if (isTriangle2 != needsToBeTriangle2)
+            {
+                uv = new Vector2(1) - uv;
+            }
+
+            return this.uvToPoint(uv);
+        }
+
+        private Vector2 pointToUV1(Position2 point)
+        {
+            var diff = (point - this.uvBase1).NumericValue;
+
+            var u = Vector2.Dot(diff, this.uDiff1.NumericValue);
+            var v = Vector2.Dot(diff, this.vDiff1.NumericValue);
+
+            return new Vector2(u, v);
+        }
+
+        private Vector2 pointToUV2(Position2 point)
+        {
+            var diff = (point - this.uvBase2).NumericValue;
+
+            var u = Vector2.Dot(diff, this.uDiff2.NumericValue);
+            var v = Vector2.Dot(diff, this.vDiff2.NumericValue);
 
             return new Vector2(u, v);
         }
 
         private Position2 uvToPoint(Vector2 uv)
         {
-            return this.SW + uv.X * this.uDiff + uv.Y * this.vDiff;
+            if (uv.X + uv.Y <= 1)
+            {
+                return this.uvBase1 + uv.X * this.uDiff1 + uv.Y * this.vDiff1;
+            }
+            return this.uvBase2 + (1 - uv.X) * this.uDiff2 + (1 - uv.Y) * this.vDiff2;
         }
 
         public void Draw(IndexedSurface<PrimitiveVertexData> surface)
