@@ -149,7 +149,7 @@ namespace Centipede.Game
                 var p1 = link.P1.NumericValue.WithZ();
                 var p2 = link.To.Center.NumericValue.WithZ();
 
-                var d = (p0 - p1).Normalized() * 0.5f;
+                var d = (p0 - p1).Normalized() * 0.1f;
                 var c = (p0 + p1) / 2;
 
                 p0 = c - d;

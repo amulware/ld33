@@ -94,6 +94,7 @@
     <Compile Include="Game\navigation\NavQuad.cs" />
     <Compile Include="Game\navigation\NavMesh.cs" />
     <Compile Include="Game\navigation\NavLink.cs" />
+    <Compile Include="Game\objects\AI\CivilianController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Game\navigation\" />
+    <Folder Include="Game\objects\AI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

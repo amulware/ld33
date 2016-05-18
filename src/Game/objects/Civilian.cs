@@ -1,6 +1,7 @@
-﻿using amulware.Graphics;
-using Bearded.Utilities.Linq;
+﻿using System;
+using amulware.Graphics;
 using Bearded.Utilities.SpaceTime;
+using Centipede.Game.AI;
 using Centipede.Rendering;
 using TimeSpan = Bearded.Utilities.SpaceTime.TimeSpan;
 
@@ -9,34 +10,31 @@ namespace Centipede.Game
     class Civilian : GameObject, IGameEventListener
     {
         private readonly Sprite2DGeometry sprite;
-
-        private NavQuad currentQuad;
-        private NavLink goalLink;
-        private Position2 goalPoint;
         private readonly GameEventListenerTileManager eventListenerTileManager;
+        private readonly CivilianController controller;
+
+        private Position2 goalPoint;
+
+        readonly bool initialised;
+
 
         public Civilian(GameState game)
             : base(game)
         {
             this.sprite = (Sprite2DGeometry)GeometryManager.Instance.GetSprite("bloob").Geometry;
 
-            this.initializePosition();
-            this.updateGoalPoint();
-
+            this.controller = new CivilianController(game, this);
             this.eventListenerTileManager = new GameEventListenerTileManager(game, this);
+
+            this.initialised = true;
         }
 
         public Position2 Position { get; private set; }
 
-        private void initializePosition()
-        {
-            this.currentQuad = this.game.Get<NavMesh>().NavQuads.RandomElement();
-            this.Position = currentQuad.RandomPointInside();
-            this.goalLink = this.currentQuad.Links.RandomElement();
-        }
-
         public override void Update(TimeSpan elapsedTime)
         {
+            this.goalPoint = this.controller.Control();
+
             var maxMoveThisFrame = new Speed(2) * elapsedTime;
 
             var differenceToGoal = this.goalPoint - this.Position;
@@ -45,19 +43,6 @@ namespace Centipede.Game
             if (distanceToGoal < maxMoveThisFrame)
             {
                 this.Position = this.goalPoint;
-                if (this.goalLink.To.Links.Count > 1)
-                {
-                    var oldQuad = this.currentQuad;
-                    this.currentQuad = this.goalLink.To;
-                    while(true)
-                    {
-                        this.goalLink = this.currentQuad.Links.RandomElement();
-
-                        if (oldQuad != this.goalLink.To)
-                            break;
-                    }
-                    this.updateGoalPoint();
-                }
             }
             else
             {
@@ -67,9 +52,18 @@ namespace Centipede.Game
             this.eventListenerTileManager.Update();
         }
 
-        private void updateGoalPoint()
+        public void SetPosition(Position2 position)
         {
-            this.goalPoint = this.goalLink.RandomPoint();
+            this.ensureInitilizing();
+            this.Position = position;
+        }
+
+        private void ensureInitilizing()
+        {
+#if DEBUG
+            if (this.initialised)
+                throw new Exception();
+#endif
         }
 
         public bool TryPerceive(IGameEvent e)
