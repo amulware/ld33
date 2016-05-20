@@ -12,10 +12,11 @@ namespace Centipede.Game
         private readonly Sprite2DGeometry sprite;
         private readonly GameEventListenerTileManager eventListenerTileManager;
         private readonly CivilianController controller;
+        readonly bool initialised;
 
         private Position2 goalPoint;
 
-        readonly bool initialised;
+        public Position2 Position { get; private set; }
 
 
         public Civilian(GameState game)
@@ -29,12 +30,17 @@ namespace Centipede.Game
             this.initialised = true;
         }
 
-        public Position2 Position { get; private set; }
-
         public override void Update(TimeSpan elapsedTime)
         {
             this.goalPoint = this.controller.Control();
 
+            updateMovement(elapsedTime);
+
+            this.eventListenerTileManager.Update();
+        }
+
+        private void updateMovement(TimeSpan elapsedTime)
+        {
             var maxMoveThisFrame = new Speed(2) * elapsedTime;
 
             var differenceToGoal = this.goalPoint - this.Position;
@@ -48,9 +54,9 @@ namespace Centipede.Game
             {
                 this.Position += differenceToGoal / distanceToGoal * maxMoveThisFrame;
             }
-
-            this.eventListenerTileManager.Update();
         }
+
+        #region initialisation
 
         public void SetPosition(Position2 position)
         {
@@ -66,6 +72,10 @@ namespace Centipede.Game
 #endif
         }
 
+        #endregion
+
+        #region perception
+
         public bool TryPerceive(IGameEvent e)
         {
             if (!e.CanBePerceivedAt(this.Position))
@@ -73,6 +83,8 @@ namespace Centipede.Game
 
             return true;
         }
+
+        #endregion
 
         public override void Draw()
         {

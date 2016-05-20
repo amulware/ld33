@@ -1,68 +1,46 @@
 ﻿
 using System;
-using Bearded.Utilities.Linq;
 using Bearded.Utilities.SpaceTime;
 
 namespace Centipede.Game.AI
 {
     class CivilianController
     {
-        private readonly Civilian civilian;
-        private readonly GameState game;
+        public Civilian Civilian { get; }
+        public GameState Game { get; }
+        public Navigator Navigator { get; }
 
-        private NavQuad currentQuad;
-        private NavLink goalLink;
-
-        private Position2 goalPoint;
+        IBehaviour behaviour;
 
         public CivilianController(GameState game, Civilian civilian)
         {
-            this.game = game;
-            this.civilian = civilian;
+            this.Game = game;
+            this.Civilian = civilian;
 
-            this.initializePosition();
+            this.Navigator = new Navigator(game, civilian);
 
-            this.updateGoalPoint();
+            this.start<IdleWalkBehaviour>();
         }
 
-        private void initializePosition()
+
+        private void start<TBehaviour>()
+            where TBehaviour : IBehaviour, new()
         {
-            this.currentQuad = this.game.Get<NavMesh>().NavQuads.RandomElement();
-            this.civilian.SetPosition(currentQuad.RandomPointInside());
-            this.goalLink = this.currentQuad.Links.RandomElement();
+            if (this.behaviour != null)
+                this.behaviour.Stop();
+
+            this.behaviour = new TBehaviour();
+            this.behaviour.Start(this);
         }
 
         public Position2 Control()
         {
-            if ((this.civilian.Position - this.goalPoint).LengthSquared < 0.1.U().Squared)
-            {
-                this.moveToNextRandomNavQuad();
-            }
-
-            return this.goalPoint;
+            this.behaviour.Update();
+            this.Navigator.Update();
+            
+            return this.Navigator.GoalPoint;
         }
 
-        private void moveToNextRandomNavQuad()
-        {
-            if (this.goalLink.To.Links.Count > 1)
-            {
-                var oldQuad = this.currentQuad;
-                this.currentQuad = this.goalLink.To;
-                while (true)
-                {
-                    this.goalLink = this.currentQuad.Links.RandomElement();
-
-                    if (oldQuad != this.goalLink.To)
-                        break;
-                }
-                this.updateGoalPoint();
-            }
-        }
-
-        private void updateGoalPoint()
-        {
-            this.goalPoint = this.goalLink.RandomPoint();
-        }
     }
 }
 

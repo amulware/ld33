@@ -95,6 +95,12 @@
     <Compile Include="Game\navigation\NavMesh.cs" />
     <Compile Include="Game\navigation\NavLink.cs" />
     <Compile Include="Game\objects\AI\CivilianController.cs" />
+    <Compile Include="Game\objects\AI\IBehaviour.cs" />
+    <Compile Include="Game\objects\AI\behaviours\IdleWalkBehaviour.cs" />
+    <Compile Include="Game\objects\AI\Event.cs" />
+    <Compile Include="Game\objects\AI\Navigator.cs" />
+    <Compile Include="Game\objects\AI\Subscription.cs" />
+    <Compile Include="Game\objects\AI\behaviours\BaseBehaviour.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -148,6 +154,7 @@
   <ItemGroup>
     <Folder Include="Game\navigation\" />
     <Folder Include="Game\objects\AI\" />
+    <Folder Include="Game\objects\AI\behaviours\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -301,8 +301,6 @@ namespace Centipede.Game
         public void DebugDraw()
         {
             var geo = GeometryManager.Instance.PrimitivesOverlay;
-
-            var argb0 = Color.Aqua * 0.1f;
             var argb1 = Color.BlueViolet * 0.1f;
 
             geo.Color = argb1;
@@ -311,19 +309,11 @@ namespace Centipede.Game
 
             foreach (var tile in this.tilemap)
             {
-                //geo.Color = (tile.X + tile.Y) % 2 == 0 ? argb0 : argb1;
                 if((tile.X + tile.Y) % 2 == 0)
                     continue;
 
                 var p = this.GetTileTopLeft(tile);
                 geo.DrawRectangle(p.NumericValue, this.TileSize.NumericValue);
-
-                //geo.Color = Color.Blue;
-                //foreach (var building in tile.Value.Buildings)
-                //{
-                //    geo.DrawLine(this.GetTileCenter(tile).NumericValue,
-                //        (building.TopLeft + building.Size * 0.5f).NumericValue);   
-                //}
             }
         }
     }

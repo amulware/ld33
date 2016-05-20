@@ -5,10 +5,12 @@ namespace Centipede.Rendering
 {
     struct BuildingVertex : IVertexData
     {
+#pragma warning disable 414
         private readonly Vector3 position;
         private readonly Vector3 normal;
         private readonly Vector2 uv;
         private readonly float alpha;
+#pragma warning restore 414
 
         public BuildingVertex(Vector3 position, Vector3 normal, Vector2 uv, float alpha = 1)
         {
