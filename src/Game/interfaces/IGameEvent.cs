@@ -15,5 +15,7 @@ namespace Centipede.Game
 
         bool CanBePerceivedAt(Position2 position);
         bool CanBePerceivedAt(Position2 position, Direction2 visionDirection, Angle visionHalfAngle);
+
+        void PerceiveBy(IGameEventPerceiver perceiver);
     }
 }

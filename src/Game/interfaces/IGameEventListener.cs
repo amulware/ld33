@@ -2,6 +2,6 @@
 {
     interface IGameEventListener : IPositionable
     {
-        bool TryPerceive(IGameEvent @event);
+        bool TryPerceive(GameEvent @event);
     }
 }

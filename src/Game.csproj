@@ -54,7 +54,6 @@
     <Compile Include="Game\Generation\Block.cs" />
     <Compile Include="Game\Generation\Street.cs" />
     <Compile Include="Game\Generation\StreetGenerator.cs" />
-    <Compile Include="Game\interfaces\IGameEvent.cs" />
     <Compile Include="Game\interfaces\IGameEventListener.cs" />
     <Compile Include="Game\interfaces\IProjectileCollider.cs" />
     <Compile Include="Game\interfaces\IPositionable.cs" />
@@ -101,6 +100,8 @@
     <Compile Include="Game\objects\AI\Navigator.cs" />
     <Compile Include="Game\objects\AI\Subscription.cs" />
     <Compile Include="Game\objects\AI\behaviours\BaseBehaviour.cs" />
+    <Compile Include="Game\interfaces\IGameEventPerceiver.cs" />
+    <Compile Include="Game\objects\AI\Memory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

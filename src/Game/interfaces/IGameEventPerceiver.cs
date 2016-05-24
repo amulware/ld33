@@ -1,0 +1,9 @@
+﻿
+namespace Centipede
+{
+    interface IGameEventPerceiver
+    {
+        
+    }
+}
+

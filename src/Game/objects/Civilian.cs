@@ -76,10 +76,12 @@ namespace Centipede.Game
 
         #region perception
 
-        public bool TryPerceive(IGameEvent e)
+        public bool TryPerceive(GameEvent e)
         {
             if (!e.CanBePerceivedAt(this.Position))
                 return false;
+
+            this.controller.Perceive(e);
 
             return true;
         }

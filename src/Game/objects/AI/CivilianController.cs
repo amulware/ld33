@@ -9,6 +9,7 @@ namespace Centipede.Game.AI
         public Civilian Civilian { get; }
         public GameState Game { get; }
         public Navigator Navigator { get; }
+        public Memory Memory { get; }
 
         IBehaviour behaviour;
 
@@ -41,6 +42,10 @@ namespace Centipede.Game.AI
             return this.Navigator.GoalPoint;
         }
 
+        public void Perceive(GameEvent @event)
+        {
+            @event.PerceiveBy(this.Memory);
+        }
     }
 }
 

@@ -5,7 +5,7 @@ using Bearded.Utilities.SpaceTime;
 
 namespace Centipede.Game
 {
-    class GameEvent : IGameEvent
+    abstract class GameEvent
     {
         private readonly Squared<Unit> maxRadiusSquared;
 
@@ -13,7 +13,7 @@ namespace Centipede.Game
         private bool sendComplete;
         private int perceivedBy;
 
-        public GameEvent(Position2 position, Unit visibleRadius, Unit audibleRadius)
+        protected GameEvent(Position2 position, Unit visibleRadius, Unit audibleRadius)
         {
             this.Position = position;
             this.VisibleRadius = visibleRadius;
@@ -80,5 +80,6 @@ namespace Centipede.Game
                 throw new Exception("Cannot access property before game event has been sent.");
         }
 
+        public abstract void PerceiveBy(IGameEventPerceiver perceiver);
     }
 }
